@@ -101,8 +101,10 @@ public class Main {
 			// PLRInPort("RoadPort","data/datafile30min_1XW_modified.dat", 154);
 			// //
 			// 154: random
+//			PLRInPort rport = new PLRInPort("RoadPort",
+//					"data/datafile3hours_modified.dat", 154); // 154: random
 			PLRInPort rport = new PLRInPort("RoadPort",
-					"data/datafile3hours_modified.dat", 154); // 154: random
+					"data/datafile5min_1XW_modified.dat", 154); // 154: random
 			rport.AddAggOutPort(inputAgg);
 //			 rport.setSyntheticDelayGen(new
 //			 PeriodicLinearRate((double)Globals.SYNTHETIC_INPUT_TIME_PERIOD/Globals.TOTAL_RUNTIME,Globals.SYNTHETIC_INPUT_TIME_PERIOD,
