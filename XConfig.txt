@@ -1,0 +1,4 @@
+# Main Config File for Xtream
+item1=100
+item2=200
+item3=300

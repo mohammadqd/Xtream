@@ -2,8 +2,8 @@
  * Project: Xtream
  * Module: Main
  * Task: Test and Evaluations
- * Last Modify: May 2013
- * Created:
+ * Last Modify: Jul 5, 2015 (Adding Log and CommonConfig Support)
+ * Created: May 2013
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @gmail.com)
  *
  * LICENSE:
@@ -27,12 +27,15 @@
 package xtream;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import xtream.Globals.AdmissionControl;
 import xtream.Globals.FLSMonitoringType;
 import xtream.Globals.LSRMType;
 import xtream.core.*;
+import xtream.core.log.XLogger;
+import xtream.core.log.XLogger.SeverityLevel;
 import xtream.core.monitoring.MemoryMonitor;
 import xtream.core.monitoring.MemoryOverloadQuery;
 import xtream.core.monitoring.OverloadMonitor;
@@ -49,16 +52,33 @@ import xtream.plr.*;
 import xtream.query.AQuery;
 import xtream.structures.*;
 
+/**
+ * Main class uses a Xtream with a predefined scenario. It is also a good sample
+ * for using Xtream.
+ */
 public class Main {
 
+	/**
+	 * main method to run Xtream scenario
+	 * 
+	 * @param args
+	 *            if no arg, results go to output folder, if 1 arg, results go
+	 *            to EXPR_DEFAULT/args[0] and if 2 args, results go to
+	 *            EXPR_args[0]/args[1]/
+	 */
 	public static void main(String args[]) {
-
 		try {
-
-			// ========== INIT =================
+			// SETUP LOG SYSTEM
+			XLogger.setup();
+			XLogger.Log("MAIN", "Starting Main", SeverityLevel.INFO);
+			// ========================
+			// ========== INIT ==========
+			// ========================
+			// find and print the number of cpu cores
 			int processors = Runtime.getRuntime().availableProcessors();
 			System.out.println("Xtream with " + processors
 					+ " processors: Starting ...");
+			// check args to set out path
 			if (args.length == 2) {
 				Globals.OUTPUT_FILES_PREFIX = "EXPR_" + args[0] + "/" + args[1]
 						+ "/";
@@ -67,17 +87,26 @@ public class Main {
 			} else if (args.length == 0) {
 				Globals.OUTPUT_FILES_PREFIX = "output/";
 			}
+			// make proper folder for results
+			XLogger.Log("MAIN", "Creating Output Folder(s)", SeverityLevel.INFO);
 			File dir = new File(Globals.OUTPUT_FILES_PREFIX);
 			dir.mkdirs();
+			// create system CORE
+			XLogger.Log("MAIN", "Creating Core!", SeverityLevel.INFO);
 			Core c = new Core();
+			XLogger.Log("MAIN", "Checking Config Validity...", SeverityLevel.INFO);
 			Globals.CheckConfigValidity();
 			Globals.core = c;
+			XLogger.Log("MAIN", "Creating System Users", SeverityLevel.INFO);
 			User systemUser = new User("system", true); // system user (not real
 														// user)
 			User admin = new User("admin");
 			c.AddUser(admin);
 
-			// ========== CREATING Query Plans =====
+			// ================================
+			// ========= CREATING Query Plans =====
+			// ================================
+			XLogger.Log("MAIN", "Creating Query Plans", SeverityLevel.INFO);
 			TxtFileOutPort queryStatisticsResutls = new TxtFileOutPort(
 					"Queries_Statistics_Results.txt");
 			for (int i = 0; i < Globals.NUM_OF_QUERY_REPLICATES; i++) {
@@ -85,14 +114,14 @@ public class Main {
 						Globals.DEFAULT_QUERY_QOS_WEIGHT + (5 * i), admin);
 				q.AddQueryStatisticsOutPort(queryStatisticsResutls);
 				admin.addQuery(q);
-				// DEBUG
-				Globals.testQueries.add(q);
 				q.Open();
 				c.AddRunnable(q);
 			}
 
+			// ================================
 			// ========== CREATING THREADS =====
-
+			// ================================
+			XLogger.Log("MAIN", "Creating Threads", SeverityLevel.INFO);
 			AggOutPort inputAgg = new AggOutPort("InputAgg.txt",
 					Globals.MONITORING_TIME_PERIOD); // to save statistics about
 														// input
@@ -101,14 +130,14 @@ public class Main {
 			// PLRInPort("RoadPort","data/datafile30min_1XW_modified.dat", 154);
 			// //
 			// 154: random
-//			PLRInPort rport = new PLRInPort("RoadPort",
-//					"data/datafile3hours_modified.dat", 154); // 154: random
+			// PLRInPort rport = new PLRInPort("RoadPort",
+			// "data/datafile3hours_modified.dat", 154); // 154: random
 			PLRInPort rport = new PLRInPort("RoadPort",
 					"data/datafile5min_1XW_modified.dat", 154); // 154: random
 			rport.AddAggOutPort(inputAgg);
-//			 rport.setSyntheticDelayGen(new
-//			 PeriodicLinearRate((double)Globals.SYNTHETIC_INPUT_TIME_PERIOD/Globals.TOTAL_RUNTIME,Globals.SYNTHETIC_INPUT_TIME_PERIOD,
-//			 200, 1000));
+			// rport.setSyntheticDelayGen(new
+			// PeriodicLinearRate((double)Globals.SYNTHETIC_INPUT_TIME_PERIOD/Globals.TOTAL_RUNTIME,Globals.SYNTHETIC_INPUT_TIME_PERIOD,
+			// 200, 1000));
 			rport.setSyntheticDelayGen(new PeriodicConstantRate(150,
 					Globals.SYNTHETIC_INPUT_TIME_PERIOD));
 			// rport.setSyntheticDelayGen(new
@@ -122,7 +151,7 @@ public class Main {
 					rport.AddOutPort((IOutPort) admin.getQuery(i).GetInPort(j),
 							i);
 			rport.setPriority(Thread.MAX_PRIORITY);
-//			 Globals.inport = rport;
+			// Globals.inport = rport;
 			c.AddRunnable(rport);
 
 			// MONITORING THREAD
@@ -171,51 +200,26 @@ public class Main {
 				memQ.setPriority(Thread.NORM_PRIORITY);
 				c.AddRunnable(memQ);
 			}
-
+			
+			// ================================
 			// ========== RUNNING ==============
-
+			// ================================
+			
+			XLogger.Log("MAIN", "Running Core...", SeverityLevel.INFO);
 			c.Run(Globals.TOTAL_RUNTIME, false);
 			System.out.print("\nXtream: Finished!");
 		} catch (OutOfMemoryError e) {
+			XLogger.Log("MAIN", "ERROR: Outta Memory!!!.", SeverityLevel.ERROR);
 			System.out
-					.println("++++++++++++++++++++++++++++++++++++ Outa Memo ");
+					.println("++++++++++++++++++++++++++++++++++++ Outta Memo ");
 		}
-
-	}
-
-	public static void main2(String args[]) { // TEST
-		// -------- ARRAY TEST
-		double[] a = { 1.1, 4.4, 2.2, 3.3 };
-		test(a);
-		// --------- VECTOR REMOVE TEST
-		// Vector<Integer> v = new Vector<Integer>();
-		// v.add(1);
-		// v.add(2);
-		// v.add(2);
-		// v.add(2);
-		// v.add(3);
-		//
-		// int i = 0;
-		// while (i < v.size()) {
-		// if (v.get(i).equals(2))
-		// v.remove(i);
-		// else
-		// i++;
-		// }
-		// for (Integer in : v)
-		// System.out.println(in);
-	}
-
-	public static void test(double[] p) {
-		try {
-			if (p[0] > 2.1)
-				return;
-		} finally {
-			System.out.println("lolo");
+		catch (IOException e) {
+			XLogger.Log("MAIN", "ERROR: IOException: " + e.getMessage(), SeverityLevel.ERROR);
+			e.printStackTrace();
 		}
-		// Arrays.sort(p);
-		// for (double d : p) {
-		// System.out.println(d);
-		// }
+		catch (Exception e) {
+			XLogger.Log("MAIN", "ERROR: Exception: " + e.getMessage(), SeverityLevel.ERROR);
+			e.printStackTrace();
+		}
 	}
 }

@@ -235,7 +235,6 @@ public class Globals {
 			.round(Math.pow(2, 3)); // number of ls offers for operator
 									// (granularity), should be power of 2
 
-	public static Vector<IQuery> testQueries = new Vector<IQuery>(); // TMP TEST
 
 	// --------------------------------------------------------------------
 	// ---------------- LSRM - JUST FOR MY THESIS -------------------------
