@@ -2,6 +2,7 @@ package xtream.plr;
 
 import xtream.Globals;
 import xtream.core.User;
+import xtream.core.commonconfig.CommonConfig;
 import xtream.interfaces.ITuple;
 import xtream.query.AQuery;
 import xtream.query.ASelfJoin;
@@ -64,7 +65,7 @@ public class Query2 extends AQuery {
 		SetRootOperator(join1);
 		AddLeafOperators(join1);
 		
-		root.SetPT(Globals.PROBABILITY_THRESHOLD);
+		root.SetPT(CommonConfig.GetConfigDoubleItem("DEFAULT_PROBABILITY_THRESHOLD"));
 	}
 
 }

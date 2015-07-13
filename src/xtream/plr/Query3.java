@@ -28,6 +28,7 @@ package xtream.plr;
 import xtream.Globals;
 import xtream.Globals.LSRMType;
 import xtream.core.User;
+import xtream.core.commonconfig.CommonConfig;
 import xtream.core.loadshedding.LSFuzzyVectorSweepArea;
 import xtream.core.loadshedding.LSTupleQueue;
 import xtream.interfaces.IInPort;
@@ -302,7 +303,7 @@ public class Query3 extends AQuery {
 		SetRootOperator(join3);
 		AddLeafOperators(sel1, sel2);
 
-		SetPT(Globals.PROBABILITY_THRESHOLD);
+		SetPT(CommonConfig.GetConfigDoubleItem("DEFAULT_PROBABILITY_THRESHOLD"));
 	}
 
 	/*

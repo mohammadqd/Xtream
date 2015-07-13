@@ -80,11 +80,52 @@ public class CommonConfig {
 	}
 
 	/**
-	 * To retrieve a config item from config file
+	 * To retrieve an double config item from config file
+	 * @see GetConfigStrItem
 	 * @param itemName name of config item to retrieve
-	 * @return on success: value of requested item on failure: empty string (i.e. "")
+	 * @return on success: value of requested item on failure: 0 (+ log entry)
+	 */	
+	public static double GetConfigDoubleItem(String itemName)
+	{
+		try
+		{
+			return Double.parseDouble(GetConfigStrItem(itemName));
+		}
+		catch (NumberFormatException ex)
+		{
+			XLogger.Log("CommonConfig", "Illegal Double Config Item: " + itemName
+					+ " Please check config file.",
+					SeverityLevel.WARNING);
+			return 0;			
+		}
+	}
+	
+	/**
+	 * To retrieve an int config item from config file
+	 * @see GetConfigStrItem
+	 * @param itemName name of config item to retrieve
+	 * @return on success: value of requested item on failure: 0 (+ log entry)
+	 */	
+	public static int GetConfigIntItem(String itemName)
+	{
+		try
+		{
+			return Integer.parseInt(GetConfigStrItem(itemName));
+		}
+		catch (NumberFormatException ex)
+		{
+			XLogger.Log("CommonConfig", "Illegal Int Config Item: " + itemName
+					+ " Please check config file.",
+					SeverityLevel.WARNING);
+			return 0;			
+		}
+	}
+	/**
+	 * To retrieve a string config item from config file
+	 * @param itemName name of config item to retrieve
+	 * @return on success: value of requested item on failure: empty string (i.e. "") (+ log entry)
 	 */
-	public static String GetConfigItem(String itemName) {
+	public static String GetConfigStrItem(String itemName) {
 		if (initialized) {
 			try {
 				String itemValue = prop.getProperty(itemName);

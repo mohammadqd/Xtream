@@ -81,14 +81,14 @@ public class Globals {
 	// public static Instrumentation instrumentation; // useful to get object
 	// size
 
-	public static String OUTPUT_FILES_PREFIX = "";
+	public static String OUTPUT_FILES_PREFIX = ""; // prefix for output files, will be set in Main
 
 	// Configuration
-	public static final int TOTAL_RUNTIME = 5 * 60 * 1000; // system run time
+	// [MIGRATED TO XConfig] public static final int TOTAL_RUNTIME = 1 * 60 * 1000; // system run time
 															// (msec)
-	public static final int NUM_OF_XWAYS = 1;
-	public static final int TIME_THRESHOLD = 30000;
-	public static final double PROBABILITY_THRESHOLD = 0.0;
+//	public static final int NUM_OF_XWAYS = 1;
+//	public static final int TIME_THRESHOLD = 30000;
+	// [MIGRATED TO XConfig] public static final double DEFAULT_PROBABILITY_THRESHOLD = 0.0;
 
 	// -------- PLR ------------
 	public static final boolean SYNTHETIC_INPUT_RATE = true; // false:
@@ -170,8 +170,8 @@ public class Globals {
 	// ---------------- RESOURCE MANAGEMENT/MONITORING --------------------
 	// --------------------------------------------------------------------
 	public static boolean ADAPTIVE_FLS = true; // if true: load shedding + adaptivity
-	public static final FLSMonitoringType FEDERAL_MONITORING = FLSMonitoringType.Continuous;
-	public static boolean FEDERAL_LOADSHEDDING_IS_ACTIVE = true;
+	public static final FLSMonitoringType FEDERAL_MONITORING = FLSMonitoringType.Disable;
+	public static boolean FEDERAL_LOADSHEDDING_IS_ACTIVE = false;
 	public static AdmissionControl ADMISSION_CTRL_TYPE = AdmissionControl.Disable;// AdmissionControl.Random;
 	public static boolean ADMISSION_CTRL_BLOCKINPUT = false; // inputs will be
 																// blocked while
@@ -181,7 +181,7 @@ public class Globals {
 																// MANUALLY)
 	public static LSOfferSelectionMethod LOADSHEDDING_OFFERSELECTION_METHOD = LSOfferSelectionMethod.FairThief;
 	public static final Monitoring_Modes MONITORING_MODE = Monitoring_Modes.Full;
-	public static final long MONITORING_TIME_PERIOD = 15000; // time period for
+	// [MIGRATED TO XConfig] public static final long MONITORING_TIME_PERIOD = 15000; // time period for
 																// monitoring
 
 	public static final long SYNTHETIC_INPUT_TIME_PERIOD = 15000; // synthetic

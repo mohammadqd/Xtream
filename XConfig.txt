@@ -1,4 +1,17 @@
+#############################
 # Main Config File for Xtream
-item1=100
-item2=200
-item3=300
+#############################
+
+#-----------------------------
+# G E N E R A L   C O N F I G
+#-----------------------------
+# total run time of the system (usually for experiments) in milliseconds
+TOTAL_RUNTIME = 15000
+# default probability threshold to set in users' queries by SetPT(), 0.0 is recommended 
+DEFAULT_PROBABILITY_THRESHOLD = 0.0
+
+#-----------------------------------
+# M O N I T O R I N G    C O N F I G
+#-----------------------------------
+# time period for monitoring (msec)
+MONITORING_TIME_PERIOD = 15000

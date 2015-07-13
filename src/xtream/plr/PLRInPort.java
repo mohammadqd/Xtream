@@ -34,6 +34,7 @@ import java.util.Vector;
 
 import xtream.Globals;
 import xtream.core.Core.ExecutionState;
+import xtream.core.commonconfig.CommonConfig;
 import xtream.experiments.ASyntheticInputDelayGenerator;
 import xtream.interfaces.IInPort;
 import xtream.interfaces.IOutPort;
@@ -177,7 +178,7 @@ public class PLRInPort extends Thread implements IInPort {
 				if (Globals.SYNTHETIC_INPUT_RATE)
 					deltaTime = syntheticDelayGen
 							.nextDelay((double) Globals.core.GetSysCurTime()
-									/ Globals.TOTAL_RUNTIME);
+									/ CommonConfig.GetConfigIntItem("TOTAL_RUNTIME"));
 				else
 					deltaTime = nextTime - System.currentTimeMillis();
 				if (deltaTime > 0)

@@ -2,7 +2,7 @@
  * Project: Xtream
  * Module: Main
  * Task: Test and Evaluations
- * Last Modify: Jul 5, 2015 (Adding Log and CommonConfig Support)
+ * Last Modify: Jul 13, 2015 (Adding Log and CommonConfig Support)
  * Created: May 2013
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @gmail.com)
  *
@@ -34,6 +34,7 @@ import xtream.Globals.AdmissionControl;
 import xtream.Globals.FLSMonitoringType;
 import xtream.Globals.LSRMType;
 import xtream.core.*;
+import xtream.core.commonconfig.CommonConfig;
 import xtream.core.log.XLogger;
 import xtream.core.log.XLogger.SeverityLevel;
 import xtream.core.monitoring.MemoryMonitor;
@@ -71,6 +72,9 @@ public class Main {
 			// SETUP LOG SYSTEM
 			XLogger.setup();
 			XLogger.Log("MAIN", "Starting Main", SeverityLevel.INFO);
+			// SETUP CommonConfig
+			CommonConfig.Initialize("XConfig.txt");
+
 			// ========================
 			// ========== INIT ==========
 			// ========================
@@ -104,7 +108,7 @@ public class Main {
 			c.AddUser(admin);
 
 			// ================================
-			// ========= CREATING Query Plans =====
+			// ========= CREATING Query Plans
 			// ================================
 			XLogger.Log("MAIN", "Creating Query Plans", SeverityLevel.INFO);
 			TxtFileOutPort queryStatisticsResutls = new TxtFileOutPort(
@@ -123,7 +127,7 @@ public class Main {
 			// ================================
 			XLogger.Log("MAIN", "Creating Threads", SeverityLevel.INFO);
 			AggOutPort inputAgg = new AggOutPort("InputAgg.txt",
-					Globals.MONITORING_TIME_PERIOD); // to save statistics about
+					CommonConfig.GetConfigIntItem("MONITORING_TIME_PERIOD")); // to save statistics about
 														// input
 			// stream
 			// PLRInPort rport = new
@@ -156,7 +160,7 @@ public class Main {
 
 			// MONITORING THREAD
 			MemoryMonitor sysMon = new MemoryMonitor(
-					Globals.MONITORING_TIME_PERIOD, true);
+					CommonConfig.GetConfigIntItem("MONITORING_TIME_PERIOD"), true);
 			sysMon.setPriority(Thread.NORM_PRIORITY);
 			c.AddRunnable(sysMon);
 
@@ -164,14 +168,19 @@ public class Main {
 			if (Globals.ADMISSION_CTRL_TYPE != AdmissionControl.Disable
 					|| Globals.LSRM_TYPE != LSRMType.Disable
 					|| (Globals.FEDERAL_MONITORING == FLSMonitoringType.Periodic && Globals.FEDERAL_LOADSHEDDING_IS_ACTIVE)) {
+				XLogger.Log("MAIN", "Activating Overload Monitoring Thread", SeverityLevel.INFO);
 				OverloadMonitor overMon = new OverloadMonitor(
 						Globals.OVERLOAD_CHECKING_TIME_PERIOD, false);
 				sysMon.setPriority(Thread.NORM_PRIORITY);
 				c.AddRunnable(overMon);
 			}
+			else {
+				XLogger.Log("MAIN", "Overload Monitoring Thread is DISABLED!", SeverityLevel.INFO);
+			}
 
 			if (Globals.FEDERAL_MONITORING == FLSMonitoringType.Continuous) {
 				// QoS Monitoring Query
+				XLogger.Log("MAIN", "Activating Continuous QoS Improvement Thread", SeverityLevel.INFO);
 				QoSImprovementQuery QQoSQ = new QoSImprovementQuery(
 						"QQoS_Monitoring_Query",
 						Globals.DEFAULT_QUERY_QOS_WEIGHT, systemUser);
@@ -179,15 +188,7 @@ public class Main {
 				for (int i = 0; i < admin.GetQueriesCount(); i++)
 					// for all admin queries
 					admin.getQuery(i).AddQueryStatisticsOutPort(
-							(IOutPort) QQoSQ.GetInPort(1)); // register
-				// all
-				// queries
-				// to
-				// send
-				// their
-				// statistics
-				// to
-				// QoSImprovementQuery
+							(IOutPort) QQoSQ.GetInPort(1)); // register all queries to send their statistics to QoSImprovementQuery
 				QQoSQ.setPriority(Thread.NORM_PRIORITY);
 				c.AddRunnable(QQoSQ);
 
@@ -206,7 +207,7 @@ public class Main {
 			// ================================
 			
 			XLogger.Log("MAIN", "Running Core...", SeverityLevel.INFO);
-			c.Run(Globals.TOTAL_RUNTIME, false);
+			c.Run(CommonConfig.GetConfigIntItem("TOTAL_RUNTIME"), false);
 			System.out.print("\nXtream: Finished!");
 		} catch (OutOfMemoryError e) {
 			XLogger.Log("MAIN", "ERROR: Outta Memory!!!.", SeverityLevel.ERROR);

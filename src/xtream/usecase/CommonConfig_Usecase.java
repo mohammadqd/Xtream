@@ -18,7 +18,7 @@ public class CommonConfig_Usecase {
 			XLogger.setup();
 
 			CommonConfig.Initialize("XConfig.txt");
-			System.out.println("Item1: "+ CommonConfig.GetConfigItem("item1"));
+			System.out.println("Item1: "+ CommonConfig.GetConfigStrItem("item1"));
 			
 			System.out.println("Press Enter to finish:");
 			System.in.read();
