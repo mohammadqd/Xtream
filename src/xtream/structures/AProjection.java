@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: Abstract Projection Function
+ * Task: Projection Function
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -28,6 +28,7 @@ package xtream.structures;
 import xtream.interfaces.ITuple;
 
 /**
+ * Abstract Projection Function
  * @author ghalambor
  *
  */

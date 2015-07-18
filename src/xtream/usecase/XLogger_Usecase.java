@@ -28,8 +28,6 @@ package xtream.usecase;
 
 import java.io.IOException;
 
-import org.apache.commons.configuration2.XMLConfiguration;
-
 import xtream.core.log.*;
 import xtream.core.log.XLogger.SeverityLevel;
 
@@ -40,7 +38,7 @@ public final class XLogger_Usecase {
 
 	public static void main(String[] args) {
 		System.out.println("Testing XLog:");
-		
+
 		try {
 			XLogger.setup();
 			XLogger.Log("mod1", "Message 1", SeverityLevel.ERROR);
@@ -52,8 +50,7 @@ public final class XLogger_Usecase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 }

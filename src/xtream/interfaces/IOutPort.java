@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: Out Port Interface
+ * Task: OutPorts should extend this interface
  * Last Modify:
  * Created: May 2013
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -34,37 +34,36 @@ import java.io.IOException;
  */
 public interface IOutPort {
 
-
 	/**
 	 * @return true: port is opean false: port is closed
 	 */
 	public boolean isOpen();
 
-    /********************************
-     * Open
-     * to open the output file
-     */
-    public void Open();
+	/********************************
+	 * Open to open the output file
+	 */
+	public void Open();
 
+	/********************************
+	 * Close to close the output file
+	 */
+	public void Close();
 
-    /********************************
-     * Close
-     * to close the output file
-     */
-    public void Close();
+	/**********************************
+	 * WriteTuple
+	 * 
+	 * @param tp
+	 *            tuple to be written in file
+	 * @param i
+	 *            index for input (for operators/ports with multiple inputs)
+	 * @throws IOException
+	 *             if can not pu t tuple (e.g. no capacity)
+	 */
+	public void PutTuple(ITuple tp, int i) throws IOException;
 
-
-    /**********************************
-     * WriteTuple
-     * @param tp tuple to be written in file
-     * @param i index for input (for operators/ports with multiple inputs)
-     * @throws IOException if can not pu t tuple (e.g. no capacity)
-     */
-    public void PutTuple(ITuple tp, int i) throws IOException;
-    
 	/**
-	 * @return true: this is a unary operator/port (e.g. select,project,agg) false: binary or more (e.g. join)
+	 * @return true: this is a unary operator/port (e.g. select,project,agg)
+	 *         false: binary or more (e.g. join)
 	 */
 	public boolean isUnary();
-
 }

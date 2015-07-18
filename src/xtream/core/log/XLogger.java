@@ -1,6 +1,6 @@
-/**
- * Project: Xtream
+/** * Project: Xtream
  * Module: Log Manager
+ *
  * Task: Log internal events
  * Last Modify: Mar 29, 2015
  * Created: Mar 29, 2015
@@ -32,6 +32,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import xtream.Globals;
+
 /**
  * Main Logger Class
  */
@@ -51,15 +53,23 @@ public class XLogger {
 	private volatile static boolean initialized = false;
 
 	/**
-	 * To determine the minimum level of records to log e.g. Level.FINEST
+	 * To determine the minimum level of records to log (It uses default logging level from Globals)
+	 * @see xtream.Globals#DefaultLoggingLevel
 	 */
-	public static java.util.logging.Level logMinLevel = Level.FINEST;
-
 	public static synchronized void setup() throws IOException {
+		setup(Globals.DefaultLoggingLevel);
+	}
+	
+	/**
+	 * To determine the minimum level of records to log e.g. Level.FINEST
+	 * @param _logMinLevel minimum level of logging (default is set in Globals)
+	 */
+
+	public static synchronized void setup(java.util.logging.Level _logMinLevel) throws IOException {
 		if (!initialized) {
 			// get the global logger to configure it
 			logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-			logger.setLevel(logMinLevel);
+			logger.setLevel(_logMinLevel);
 			fileTxt = new FileHandler("Xtream.log.txt");
 
 			// create a TXT formatter

@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: Traditional SELECT operator in DB SPJ Queries
+ * Task: stream filtering based on a prediction
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -44,6 +44,10 @@ public class Select extends AOperator {
 
 	protected ABooleanPredicate prediction;
 
+	/**
+	 * @param prediction
+	 *            Filtering predicate
+	 */
 	public Select(ABooleanPredicate prediction, String opName,
 			IQuery parentQuery) {
 		super(opName, parentQuery);
@@ -58,10 +62,11 @@ public class Select extends AOperator {
 				throw new IOException(
 						"ERROR: Trying to put tuples in a closed SELECT operator");
 			else {
-				if ((!Globals.ADAPTIVE_FLS || tp.GetConf() >= GetPT()) && prediction.Predicate(tp)) { // if
-																			// tuple
-																			// pass
-																			// prediction
+				if ((!Globals.ADAPTIVE_FLS || tp.GetConf() >= GetPT())
+						&& prediction.Predicate(tp)) { // if
+					// tuple
+					// pass
+					// prediction
 					for (OutChannel o : outChannels) { // send it to all out
 														// ports
 														// (including

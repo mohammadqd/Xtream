@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.logging.Level;
 
 import cern.jet.random.engine.MersenneTwister;
 import xtream.core.Core;
@@ -81,7 +82,16 @@ public class Globals {
 	// public static Instrumentation instrumentation; // useful to get object
 	// size
 
-	public static String OUTPUT_FILES_PREFIX = ""; // prefix for output files, will be set in Main
+	
+	/**
+	 * Default Logging level for Xtream 
+	 */
+	public static java.util.logging.Level DefaultLoggingLevel = Level.FINEST;
+	
+	/**
+	 *prefix for output files, will be set in Main
+	 */
+	public static String OUTPUT_FILES_PREFIX = "";
 
 	// Configuration
 	// [MIGRATED TO XConfig] public static final int TOTAL_RUNTIME = 1 * 60 * 1000; // system run time

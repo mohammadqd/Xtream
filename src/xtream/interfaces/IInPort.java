@@ -1,8 +1,8 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
- * Last Modify:
+ * Module: In Port Interface
+ * Task: InPorts should extend this interface
+ * Last Modify: 
  * Created: May 2013
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
@@ -33,47 +33,44 @@ import java.io.IOException;
  */
 public interface IInPort {
 
-
 	/**
 	 * @return true: port is opean false: closed
 	 */
 	public boolean isOpen();
 
-    /********************************
-     * Open
-     * to open the inport
-     */
-    public void Open();
+	/********************************
+	 * Open to open the inport
+	 */
+	public void Open();
 
+	/********************************
+	 * Close to close the inport
+	 */
+	public void Close();
 
-    /********************************
-     * Close
-     * to close the inport
-     */
-    public void Close();
-    
-    /**
-     * @return true if there is some tuples to get
-     */
-    public boolean hasTuple();
-    
-    /**
-     * @return next tuple and also remove it from the port
-     */
-    public ITuple nextTuple() throws IOException;
-    
-    /**
-     * To set probability threshold
-     * @param newPT new probability threshold to set in [0,1]
-     * @return new set probability threshold (>=newPT)
-     */
-    public double SetPT(double newPT);
-    
-    /**
-     * @return current probability threshold in [0,1]
-     */
-    public double GetPT();
-    
+	/**
+	 * @return true if there is some tuples to get
+	 */
+	public boolean hasTuple();
 
+	/**
+	 * @return next tuple and also remove it from the port
+	 * @throws IOException when io exception happens
+	 */
+	public ITuple nextTuple() throws IOException;
+
+	/**
+	 * To set probability threshold
+	 * 
+	 * @param newPT
+	 *            new probability threshold to set in [0,1]
+	 * @return new set probability threshold (equal of bigger than newPT)
+	 */
+	public double SetPT(double newPT);
+
+	/**
+	 * @return current probability threshold in [0,1]
+	 */
+	public double GetPT();
 
 }

@@ -1,8 +1,8 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
- * Last Modify:
+ * Module: Abstract Query
+ * Task: base for CQueries
+ * Last Modify: Jul 18, 2015 (revise and documentation)
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
@@ -34,6 +34,8 @@ import xtream.Globals;
 import xtream.Globals.Monitoring_Modes;
 import xtream.core.Core.ExecutionState;
 import xtream.core.loadshedding.LSOffer;
+import xtream.core.log.XLogger;
+import xtream.core.log.XLogger.SeverityLevel;
 import xtream.core.User;
 import xtream.interfaces.IInPort;
 import xtream.interfaces.ILSStore;
@@ -53,12 +55,12 @@ import xtream.structures.QueryStatisticsTuple;
  */
 public abstract class AQuery extends Thread implements IQuery, ILSStore {
 
-	protected IOperator root;
-	protected List<IOperator> operators;
-	protected Vector<IOutPort> outPorts;
-	protected Vector<IOutPort> outStatisticsPorts;
-	protected Vector<IInPort> inPorts;
-	protected Vector<IOperator> leafOperators;
+	protected IOperator root; // query root operator (top and last operator)
+	protected List<IOperator> operators; // all query operators
+	protected Vector<IOutPort> outPorts; // out ports for final results
+	protected Vector<IOutPort> outStatisticsPorts; // out ports for statistical results
+	protected Vector<IInPort> inPorts;	// in ports to get input tuples
+	protected Vector<IOperator> leafOperators; // leaf operators which firstly get input tuples
 	protected boolean isOpen;
 	protected double currentART; // last computed average response time
 	protected double currentPT; // last set probability-threshold
@@ -148,7 +150,6 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 	@Override
 	public void AddOperators(IOperator... op) {
 		for (int i = 0; i < op.length; i++) {
-			// System.out.println("\n Operator "+i+" Type: "+op[i].getClass());
 			operators.add(op[i]);
 		}
 	}
@@ -189,7 +190,6 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 												// empty loops (very effective!)
 			}
 		} catch (Throwable e) {
-			// e.printStackTrace();
 			Globals.core.Exception(e);
 		} finally {
 			Close();
@@ -236,8 +236,8 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 			// root.Close();
 			isOpen = false;
 			// DEBUG
-			System.out.println("\nQuery: " + qname + " Total Results: "
-					+ totalResults);
+			XLogger.Log("QUERY", "Query: " + qname + " Total Results: "
+					+ totalResults, SeverityLevel.DEBUG);
 		}
 	}
 

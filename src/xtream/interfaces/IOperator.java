@@ -26,22 +26,27 @@
 
 package xtream.interfaces;
 
-public interface IOperator extends IIOPort{
-	
+public interface IOperator extends IIOPort {
+
 	/**
-	 * @param ts timeslice to run (millisec)
+	 * @param ts
+	 *            timeslice to run (millisec)
 	 */
 	public void run(long ts);
-	
-	public void SetAsRootOP();
-	
-	public boolean isRootOP();
-	
+
 	/**
-	 * @return query which contains this operator, may return null for orphan operators
+	 * To set this operator as root operator (esp. for FLS)
+	 */
+	public void SetAsRootOP();
+
+	/**
+	 * @return if this OP is a root OP
+	 */
+	public boolean isRootOP();
+
+	/**
+	 * @return query which contains this operator, may return null for orphan
+	 *         operators
 	 */
 	public IQuery GetQuery();
-	
-
-
 }

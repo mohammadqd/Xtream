@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: Project operator for DB SPJ Queries
+ * Task: schema filtering
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -44,18 +44,24 @@ public class Project extends AOperator {
 
 	protected AProjection prj;
 
+	/**
+	 * @param prj projecting function
+	 * @param opName operator's name
+	 * @param parentQuery link to parent query
+	 */
 	public Project(AProjection prj, String opName, IQuery parentQuery) {
 		super(opName, parentQuery);
 		this.prj = prj;
 
 	}
 
+	/* (non-Javadoc)
+	 * @see xtream.query.AOperator#PutTuple(xtream.interfaces.ITuple, int)
+	 */
 	@Override
 	public void PutTuple(ITuple tp, int i) throws IOException {
 		long startTime = System.currentTimeMillis();
 		if (isOpen())
-		// throw new IOException(
-		// "ERROR: Trying to put tuples in a closed PROJECT operator");
 		{
 			ITuple newtp = prj.ProjectComputation(tp);
 			if ((!Globals.ADAPTIVE_FLS || newtp.GetConf() >= GetPT())) { // check probability threshold
@@ -72,8 +78,11 @@ public class Project extends AOperator {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see xtream.interfaces.IOperator#run(long)
+	 */
 	@Override
-	public void run(long ts) { // do not care about timeslice
+	public void run(long ts) { // does not care about timeslice
 		IInPort inPort = inPorts.elementAt(0);
 		while (hasTuple() && Globals.core.ExecState() == ExecutionState.RUNNING) {
 			try {
@@ -86,11 +95,17 @@ public class Project extends AOperator {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see xtream.interfaces.IInPort#hasTuple()
+	 */
 	@Override
 	public boolean hasTuple() {
 		return inPorts.elementAt(0).hasTuple();
 	}
 
+	/* (non-Javadoc)
+	 * @see xtream.interfaces.IInPort#nextTuple()
+	 */
 	@Override
 	public ITuple nextTuple() throws IOException {
 		if (!isOpen())
@@ -108,6 +123,9 @@ public class Project extends AOperator {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see xtream.interfaces.IOutPort#isUnary()
+	 */
 	@Override
 	public boolean isUnary() {
 		return true;
