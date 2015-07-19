@@ -201,7 +201,8 @@ public class TupleQueue implements IQueue {
 	}
 
 	/**
-	 * To remove invalid tuples specially after increasing probability-threshold (SetPT)
+	 * To remove invalid tuples specially after increasing probability-threshold
+	 * (SetPT)
 	 */
 	protected void RemoveInvalidTuples() {
 		long curTime = Globals.core.GetSysCurTime();

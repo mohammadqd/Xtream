@@ -29,13 +29,15 @@ import xtream.interfaces.ITuple;
 
 /**
  * Abstract Projection Function
+ * 
  * @author ghalambor
  *
  */
 public abstract class AProjection {
-	
+
 	/**
-	 * @param tp input tuple
+	 * @param tp
+	 *            input tuple
 	 * @return the new tuple after projection process
 	 */
 	public abstract ITuple ProjectComputation(ITuple tp);

@@ -38,7 +38,7 @@ public class AggTuple implements IAggTuple {
 	// ------------------------------------------------------------
 	// NOTE: On changing fields, update constructor & clone methods
 	// ------------------------------------------------------------
-	
+
 	protected Number value;
 	protected double conf;
 	protected long startTime;
@@ -77,7 +77,7 @@ public class AggTuple implements IAggTuple {
 	 */
 	@Override
 	public long GetSize() {
-		return 5 * Double.SIZE/8;
+		return 5 * Double.SIZE / 8;
 	}
 
 	/*
@@ -188,7 +188,8 @@ public class AggTuple implements IAggTuple {
 	 */
 	@Override
 	public String toString() {
-		return "(AggTuple Value: " + value + " Time: " + startTime + " Conf: "+conf+") ";
+		return "(AggTuple Value: " + value + " Time: " + startTime + " Conf: "
+				+ conf + ") ";
 	}
 
 	/**
@@ -208,7 +209,8 @@ public class AggTuple implements IAggTuple {
 
 	@Override
 	public int compareTo(ITuple o) {
-		return (new Long(GetTimestamp()[0])).compareTo(new Long(o.GetTimestamp()[0]));
+		return (new Long(GetTimestamp()[0])).compareTo(new Long(o
+				.GetTimestamp()[0]));
 	}
 
 }

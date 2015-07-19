@@ -1,6 +1,6 @@
 /**
  * Project: Xtream
- * Module:
+ * Module: Abstract Self Join in SPJ queries
  * Task:
  * Last Modify:
  * Created:
@@ -41,16 +41,19 @@ import xtream.usecase.VectorSweepArea_Usecase;
 
 /**
  * PUSH based Operator
- * 
+ * Abstract Self Join in SPJ queries
  * @author ghalambor
  * 
  */
 public abstract class ASelfJoin extends AOperator {
 
-	public IFuzzySweepArea synopsis; // synopsis should be created in
-										// realized
+	/**
+	 * synopsis should be created in realized versions
+	 */
+	public IFuzzySweepArea synopsis;
+
 	// classes
-	protected long timeWindowSize; // size of time window
+	protected long timeWindowSize; // size of time window (msec)
 	protected ABooleanPredicate DefaultRemovePredicate; // default remove
 														// predicate removes
 														// expired tuples based
@@ -58,10 +61,14 @@ public abstract class ASelfJoin extends AOperator {
 														// and confidence
 
 	/**
-	 * @param threshold
-	 *            for threshold-based join (equality resolution)
 	 * @param timeWindowSize
-	 *            size of time window
+	 *            size of time window (msec) default is in
+	 *            xtream.Globals#OVERLOAD_CHECKING_TIME_PERIOD
+	 * @param opName
+	 *            operator name
+	 * @param parentQuery
+	 *            link to parent query
+	 * @see xtream.query.ABinaryJoin#ABinaryJoin(long, String, IQuery)
 	 */
 	public ASelfJoin(final long timeWindowSize, String opName,
 			IQuery parentQuery) {

@@ -76,7 +76,12 @@ public class FuzzyVectorSweepArea extends AFuzzySweepArea {
 	public void Replace(ITuple oldTpl, ITuple newTpl) {
 		int oldIndex = buffer.indexOf(oldTpl);
 		if (oldIndex > -1) { // if found
-			if ((!Globals.ADAPTIVE_FLS || newTpl.GetConf() >= GetPT())) // if new tuple is confident enough
+			if ((!Globals.ADAPTIVE_FLS || newTpl.GetConf() >= GetPT())) // if
+																		// new
+																		// tuple
+																		// is
+																		// confident
+																		// enough
 				buffer.add(oldIndex, newTpl); // repleace it
 			else
 				buffer.remove(oldIndex); // remove old tuple and also ignore new
@@ -116,7 +121,7 @@ public class FuzzyVectorSweepArea extends AFuzzySweepArea {
 	}
 
 	public Iterator<FuzzyQueryResult> FQuery(ITuple tpl, int j) {
-		return FQuery(tpl,j,GetPT());
+		return FQuery(tpl, j, GetPT());
 	}
 
 	/*

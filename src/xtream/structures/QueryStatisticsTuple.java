@@ -43,13 +43,23 @@ public class QueryStatisticsTuple implements IAggTuple {
 	protected IQoS qos;
 
 	// General fields
+	/**
+	 * confidence
+	 */
 	public double conf;
 	protected long startTime;
 	protected long expirationTime;
 	protected long responseTime;
 
 	/**
-	 * 
+	 * @param query
+	 *            related query
+	 * @param timestamp
+	 *            timestamp of tuple
+	 * @param qos
+	 *            related QoS
+	 * @param conf
+	 *            confidence value
 	 */
 	public QueryStatisticsTuple(IQuery query, IQoS qos, long timestamp,
 			double conf) {
@@ -62,7 +72,8 @@ public class QueryStatisticsTuple implements IAggTuple {
 	}
 
 	/**
-	 * 
+	 * @see xtream.structures.QueryStatisticsTuple#QueryStatisticsTuple(IQuery,
+	 *      IQoS, long, double)
 	 */
 	public QueryStatisticsTuple(IQuery query, IQoS qos, double conf) {
 		this(query, qos, Globals.core.GetSysCurTime(), conf);
@@ -210,6 +221,9 @@ public class QueryStatisticsTuple implements IAggTuple {
 				.GetTimestamp()[0]));
 	}
 
+	/**
+	 * @return related query
+	 */
 	public IQuery getQuery() {
 		return query;
 	}

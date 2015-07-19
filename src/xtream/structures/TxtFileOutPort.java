@@ -70,7 +70,7 @@ public class TxtFileOutPort implements IOutPort {
 			}
 		}// try
 		catch (IOException err) {
-			err.printStackTrace();
+			Globals.core.Exception(err);
 		}// catch
 	}// Open
 
@@ -85,7 +85,7 @@ public class TxtFileOutPort implements IOutPort {
 				isOpen = false;
 			}
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			Globals.core.Exception(ex);
 		}
 	}// Close
 
@@ -99,7 +99,7 @@ public class TxtFileOutPort implements IOutPort {
 	 * @throws IOException
 	 */
 	public synchronized void PutTuple(ITuple tp, int i) throws IOException {
-		if (isOpen && fout!=null) {
+		if (isOpen && fout != null) {
 			fout.write(/*
 						 * "Index: " + i + ", " + Globals.core.GetSysCurTime() +
 						 * "," +
@@ -108,6 +108,7 @@ public class TxtFileOutPort implements IOutPort {
 		// else
 		// throw new IOException(
 		// "ERROR: Putting tuple in a closed TxtFileOutPort!");
+		Globals.core.Exception(new IOException("ERROR: Putting tuple in a closed TxtFileOutPort!"));
 
 	}// WriteTuple
 
@@ -119,11 +120,11 @@ public class TxtFileOutPort implements IOutPort {
 	 */
 	public synchronized void WriteStr(String str) {
 		try {
-			if (isOpen && fout!=null)
+			if (isOpen && fout != null)
 				fout.write(str + "\n");
 		}// try
 		catch (IOException ex) {
-			ex.printStackTrace();
+			Globals.core.Exception(ex);
 		}// catch
 	}// WriteStr
 

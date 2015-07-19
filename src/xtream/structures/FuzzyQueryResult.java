@@ -3,11 +3,16 @@ package xtream.structures;
 import xtream.interfaces.ITuple;
 
 public class FuzzyQueryResult {
-	
 
-	public ITuple tpl; // result tuple
-	public double conf; // confidence in [0,1]
-	
+	/**
+	 * result tuple
+	 */
+	public ITuple tpl;
+	/**
+	 * confidence in [0,1]
+	 */
+	public double conf;
+
 	/**
 	 * @param tpl
 	 * @param conf

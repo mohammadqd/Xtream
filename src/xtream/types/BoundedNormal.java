@@ -1,9 +1,9 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
- * Last Modify:
- * Created:
+ * Module: Bounded Normal Distro
+ * Task: To model bounded normal distribution
+ * Last Modify: Jul 19 2015 (revise)
+ * Created: 2013
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
  * LICENSE:
@@ -29,6 +29,7 @@ import cern.jet.random.Normal;
 import cern.jet.random.engine.MersenneTwister;
 
 /**
+ * Bounded Normal Distribution
  * @author ghalambor
  * 
  */
@@ -48,10 +49,16 @@ public class BoundedNormal {
 		dist = new Normal(mean, std, rndeng);
 	}
 
+	/**
+	 * @return standard deviation
+	 */
 	public synchronized double getStd() {
 		return std;
 	}
 
+	/**
+	 * @param std set standard deviation
+	 */
 	public synchronized void setStd(double std) {
 		this.std = std;
 		dist = new Normal(mean, std, rndeng);
@@ -88,7 +95,7 @@ public class BoundedNormal {
 	}
 
 	/**
-	 * @return the rndeng
+	 * @return the random generation engine
 	 */
 	public synchronized MersenneTwister getRndeng() {
 		return rndeng;
@@ -115,14 +122,6 @@ public class BoundedNormal {
 		this.std = std;
 		dist = new Normal(mean, std, rndEng);
 	}
-
-	// /**
-	// * @param rndEng
-	// * random generation engine
-	// */
-	// public BoundedNormal(MersenneTwister rndEng) {
-	// this.rndeng = rndEng;
-	// }
 
 	/**
 	 * @param l

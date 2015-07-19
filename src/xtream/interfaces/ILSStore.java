@@ -41,7 +41,7 @@ public interface ILSStore {
 	 * @param newPTs
 	 *            array of new probability-threshold, so offers will be made
 	 *            based on these PTs
-	 * @return array of Load Sheedding Offers
+	 * @return array of Load Shedding Offers
 	 */
 	public LSOffer[] getLSOffers(double[] newPTs);
 

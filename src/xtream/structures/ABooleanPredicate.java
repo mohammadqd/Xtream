@@ -34,6 +34,7 @@ import xtream.interfaces.ITuple;
 public abstract class ABooleanPredicate {
 	
 	/**
+	 * User-defined boolean predicate (usually for select operators)
 	 * @param tpls array of tuples to check prediction
 	 * @return true: pass prediction false: rejected
 	 */

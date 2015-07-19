@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
  * Module: ITuple
- * Task:
+ * Task: represents a stream tuple
  * Last Modify: May 2013
  * Created: 2007
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -35,8 +35,8 @@ public interface ITuple extends Comparable<ITuple> {
 	/**
 	 * to check equality of two tuples (all fields except timestamp)
 	 * 
-	 * @param tp
-	 * @return
+	 * @param tp tuple to compare this tuple with
+	 * @return true: two tuples are equal (except timestamp)
 	 */
 	public boolean EqualValue(ITuple tp);
 
@@ -44,7 +44,8 @@ public interface ITuple extends Comparable<ITuple> {
 	 * to check equality of two tuples (all fields including timestamp)
 	 * 
 	 * @param tp
-	 * @return
+	 *            tuple to compare this tuple with
+	 * @return true: two tuples are equal (including timestamp)
 	 */
 	public boolean FullyEqual(ITuple tp);
 
@@ -85,6 +86,4 @@ public interface ITuple extends Comparable<ITuple> {
 	public void SetResponseTime(long rt);
 
 	public ITuple Clone();
-	
-
 }

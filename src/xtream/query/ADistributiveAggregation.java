@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: Distributive Aggregation
+ * Task: maintain and update single value aggregations (e.g. MIN,MAX,SUM,COUNT)
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -51,10 +51,11 @@ public class ADistributiveAggregation extends AOperator {
 										// implementing classes)
 
 	/**
-	 * @param opName
+	 * @param opName name of operator
+	 * @param parentQuery link to parent query
 	 */
-	public ADistributiveAggregation(String opName,IQuery parentQuery) {
-		super(opName,parentQuery);
+	public ADistributiveAggregation(String opName, IQuery parentQuery) {
+		super(opName, parentQuery);
 		value = null;
 		aggResult = null;
 		newValue = null;
@@ -103,7 +104,8 @@ public class ADistributiveAggregation extends AOperator {
 		assert newValue != null : "agg Not Set!";
 		long startTime = System.currentTimeMillis();
 		ITuple result = (ITuple) (aggResult.ComputeAggregation(value, tp));
-		if (result != null && (!Globals.ADAPTIVE_FLS || result.GetConf() >= GetPT())) {
+		if (result != null
+				&& (!Globals.ADAPTIVE_FLS || result.GetConf() >= GetPT())) {
 			for (OutChannel o : outChannels) { // send it to all out ports
 				// (including
 				// next operators)
@@ -112,7 +114,8 @@ public class ADistributiveAggregation extends AOperator {
 					GetQuery().CheckResultTuple(nextTpl);
 				o.outPort.PutTuple(nextTpl, o.index);
 			}
-			rt.AddValue(result.GetConf(),System.currentTimeMillis() - startTime);
+			rt.AddValue(result.GetConf(), System.currentTimeMillis()
+					- startTime);
 		}
 		value = newValue.ComputeAggregation(value, tp);
 	}

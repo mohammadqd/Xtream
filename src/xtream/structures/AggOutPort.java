@@ -69,8 +69,8 @@ public class AggOutPort extends TxtFileOutPort {
 			cnt++;
 			wght += weight;
 		} else {
-			WriteStr(lastTime + "," + ((wght > 0) ? (sum / wght) : 0) + ","+sum+","
-					+ wght + "," + cnt);
+			WriteStr(lastTime + "," + ((wght > 0) ? (sum / wght) : 0) + ","
+					+ sum + "," + wght + "," + cnt);
 			lastTime = (time / periodSize) * periodSize;
 			sum = value * weight;
 			cnt = 1;
@@ -89,7 +89,7 @@ public class AggOutPort extends TxtFileOutPort {
 		WriteStr("[TOTAL MEAN]," + (totalSum / totalWeight) + ", Total Sum,"
 				+ totalSum + ", Total Weight," + totalWeight
 				+ ", Total Count: " + totalCnt);
-//		WriteStr("[START_TIME_OF_PERIOD] , [PERIODIC_WEIGHTED_MEAN] , [PERIODIC_SUM], [PERIODIC_TOTAL_WEIGHT] , [PERIODIC_COUNT]");
+		// WriteStr("[START_TIME_OF_PERIOD] , [PERIODIC_WEIGHTED_MEAN] , [PERIODIC_SUM], [PERIODIC_TOTAL_WEIGHT] , [PERIODIC_COUNT]");
 		super.Close();
 	}
 
