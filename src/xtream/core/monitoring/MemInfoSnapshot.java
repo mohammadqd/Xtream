@@ -1,8 +1,8 @@
 /**
  * Project: Xtream
  * Module:
- * Task:
- * Last Modify:
+ * Task: This is a tuple for measuring memory (for monitoring system)
+ * Last Modify: Jul 21 2015
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
@@ -40,12 +40,30 @@ public class MemInfoSnapshot implements ITuple {
 	// NOTE: On changing fields, update constructor & clone methods
 	// ------------------------------------------------------------
 
-	public long assignedMem; // used memory (consumed + free)
-	public long usedMem; // used(full) mem out of assigned mem
-	public long freeMem; // free mem out of assigned mem
-	public long maxMem; // max possible/allowable mem to assign
-	protected long startTime; // timestamp
-	protected long endTime; // expiration timestamp
+	/**
+	 * used memory (consumed + free)
+	 */
+	public long assignedMem; 
+	/**
+	 * used(full) mem out of assigned mem
+	 */
+	public long usedMem; 
+	/**
+	 *  free mem out of assigned mem
+	 */
+	public long freeMem; 
+	/**
+	 * max possible/allowable mem to assign
+	 */
+	public long maxMem;  
+	/**
+	 * timestamp
+	 */
+	public long startTime;  
+	/**
+	 * expiration timestamp
+	 */
+	public long endTime;  
 
 	/**
 	 * @return size of a MemInfoSnapshot object (fixed size)
@@ -55,12 +73,12 @@ public class MemInfoSnapshot implements ITuple {
 	}
 
 	/**
-	 * @param assignedMem
-	 * @param usedMem
-	 * @param freeMem
-	 * @param maxMem
-	 * @param startTime
-	 * @param endTime
+	 * @param assignedMem used memory (consumed + free)
+	 * @param usedMem used(full) mem out of assigned mem
+	 * @param freeMem free mem out of assigned mem
+	 * @param maxMem max possible/allowable mem to assign
+	 * @param startTime timestamp
+	 * @param endTime expiration timestamp
 	 */
 	public MemInfoSnapshot(long assignedMem, long usedMem, long freeMem,
 			long maxMem, long startTime, long endTime) {
@@ -73,7 +91,7 @@ public class MemInfoSnapshot implements ITuple {
 	}
 
 	/**
-	 * 
+	 * Receives data parameters from running JVM
 	 */
 	public MemInfoSnapshot() {
 		long curTime = Globals.core.GetSysCurTime();
