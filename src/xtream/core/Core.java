@@ -245,7 +245,6 @@ public class Core {
 		loadShedder = new FederalLoadShedder(
 				(IQuery[]) (queries.toArray(new IQuery[0])),
 				(int) Globals.PER_OPERATOR_LS_OFFERS_COUNT);
-
 	}
 
 	/**
