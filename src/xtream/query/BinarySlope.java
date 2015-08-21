@@ -25,10 +25,9 @@
  */
 package xtream.query;
 
-import xtream.interfaces.IAggTuple;
-import xtream.interfaces.IQuery;
 import xtream.structures.AAggregation;
 import xtream.structures.AggTuple;
+import xtream.structures.IAggTuple;
 
 /**
  * Computes slope of two consequent <i>IAggTuples</i> based on their values and start timestamps

@@ -25,9 +25,8 @@
  */
 package xtream.query;
 
-import xtream.interfaces.IAggTuple;
-import xtream.interfaces.IQuery;
 import xtream.structures.AAggregation;
+import xtream.structures.IAggTuple;
 
 /**
  * This is a Tumbling Time/Tuple Window Aggregate to retrieve a tuple with max

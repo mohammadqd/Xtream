@@ -26,7 +26,7 @@
 package xtream.plr;
 
 import xtream.Globals;
-import xtream.interfaces.IQoS;
+import xtream.structures.IQoS;
 
 /** 
  * 2D QoS based on Probability-Threshold and Response-time for PLR

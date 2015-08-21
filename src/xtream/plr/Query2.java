@@ -3,13 +3,13 @@ package xtream.plr;
 import xtream.Globals;
 import xtream.core.User;
 import xtream.core.commonconfig.CommonConfig;
-import xtream.interfaces.ITuple;
+import xtream.io.TxtFileOutPort;
 import xtream.query.AQuery;
 import xtream.query.ASelfJoin;
 import xtream.structures.ABooleanPredicate;
 import xtream.structures.AFuzzyPredicate;
+import xtream.structures.ITuple;
 import xtream.structures.TupleQueue;
-import xtream.structures.TxtFileOutPort;
 import xtream.structures.FuzzyVectorSweepArea;
 
 /**

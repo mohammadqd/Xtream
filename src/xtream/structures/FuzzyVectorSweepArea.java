@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Vector;
 
 import xtream.Globals;
-import xtream.interfaces.ITuple;
 import xtream.usecase.VectorSweepArea_Usecase;
 
 /**

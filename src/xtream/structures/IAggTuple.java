@@ -1,6 +1,6 @@
 /**
  * Project: Xtream
- * Module:
+ * Module: 
  * Task:
  * Last Modify:
  * Created:
@@ -25,71 +25,21 @@
  */
 package xtream.structures;
 
-import java.io.IOException;
-
-import xtream.interfaces.IOutPort;
-import xtream.interfaces.ITuple;
 
 /**
- * Simple Out Port to print tuples on stdout
- * 
+ * for Aggregation Tuples
  * @author ghalambor
- * 
+ *
  */
-public class STDOutPort implements IOutPort {
+public interface IAggTuple extends ITuple {
+	
+	/**
+	 * @return the value
+	 */
+	public Number getValue();
 
 	/**
-	 * 
+	 * @param value the value to set
 	 */
-	public STDOutPort() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see xtream.interfaces.IInPort#isOpen()
-	 */
-	@Override
-	public boolean isOpen() {
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see xtream.interfaces.IInPort#Open()
-	 */
-	@Override
-	public void Open() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see xtream.interfaces.IInPort#Close()
-	 */
-	@Override
-	public void Close() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see xtream.interfaces.IOutPort#PutTuple(xtream.interfaces.ITuple, int)
-	 */
-	@Override
-	public void PutTuple(ITuple tp, int i) throws IOException {
-		System.out.println(tp);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see xtream.interfaces.IOutPort#isUnary()
-	 */
-	@Override
-	public boolean isUnary() {
-		return true;
-	}
-
+	public void setValue(Number value);
 }

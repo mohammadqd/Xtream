@@ -28,9 +28,8 @@ package xtream.query;
 import java.io.IOException;
 
 import xtream.Globals;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
 import xtream.structures.AAggregation;
+import xtream.structures.ITuple;
 
 /**
  * This kind of aggregate only stores one value/tuple and each time after

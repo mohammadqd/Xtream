@@ -29,10 +29,9 @@ import java.io.IOException;
 
 import xtream.Globals;
 import xtream.core.Core.ExecutionState;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
 import xtream.structures.AProjection;
+import xtream.structures.ITuple;
 
 /**
  * PULL/PUSH based Operator
@@ -42,7 +41,7 @@ import xtream.structures.AProjection;
  */
 public class Project extends AOperator {
 
-	protected AProjection prj;
+	protected AProjection prj; // projecting function
 
 	/**
 	 * @param prj projecting function
@@ -88,9 +87,9 @@ public class Project extends AOperator {
 			try {
 				PutTuple(inPort.nextTuple(), 1);
 			} catch (RuntimeException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			} catch (IOException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			}
 		}
 	}

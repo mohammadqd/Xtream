@@ -33,8 +33,8 @@ import java.util.logging.Level;
 
 import cern.jet.random.engine.MersenneTwister;
 import xtream.core.Core;
-import xtream.interfaces.IQuery;
 import xtream.lsrm.ILSRMOP;
+import xtream.query.IQuery;
 
 /**
  * This class provides Xtream codes with access to global parameters and also

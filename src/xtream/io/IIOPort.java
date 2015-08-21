@@ -1,9 +1,9 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
- * Last Modify:
- * Created:
+ * Module: IO port interface
+ * Task: IO port interface
+ * Last Modify: 2013
+ * Created: 2013
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
  * LICENSE:
@@ -23,25 +23,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
  */
-package xtream.interfaces;
+package xtream.io;
 
-import java.util.Iterator;
 
 /**
  * @author ghalambor
  *
  */
-public interface IBooleanSweepArea extends ISweepArea {
-	
-	/**
-	 * to run a query and return results
-	 * 
-	 * @param tpl
-	 *            tuple as a parameter for query
-	 * @param j
-	 *            j is 1 or 2 defining order of parameters
-	 * @return iterator to results
-	 */
-	public Iterator<ITuple> Query(ITuple tpl, int j);
+public interface IIOPort extends IInPort, IOutPort {
 
 }

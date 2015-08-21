@@ -25,7 +25,6 @@
  */
 package xtream.structures;
 
-import xtream.interfaces.ITuple;
 
 /**
  * @author ghalambor

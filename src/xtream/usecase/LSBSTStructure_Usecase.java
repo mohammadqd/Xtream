@@ -29,8 +29,8 @@ import xtream.Globals;
 import xtream.core.Core;
 import xtream.core.loadshedding.LSBSTStructure;
 import xtream.core.loadshedding.LSOffer;
-import xtream.interfaces.ITuple;
 import xtream.structures.AggTuple;
+import xtream.structures.ITuple;
 
 /**
  * @author ghalambor

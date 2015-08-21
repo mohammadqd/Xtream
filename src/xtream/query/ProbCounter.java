@@ -29,8 +29,7 @@ import java.io.IOException;
 
 import xtream.core.log.XLogger;
 import xtream.core.log.XLogger.SeverityLevel;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.structures.ITuple;
 
 /**
  * Simple Probe counter to count and show results on screen

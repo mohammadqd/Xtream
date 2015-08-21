@@ -1,6 +1,5 @@
 package xtream.structures;
 
-import xtream.interfaces.ITuple;
 
 public class FuzzyQueryResult {
 

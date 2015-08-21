@@ -35,15 +35,15 @@ import xtream.Globals.AdmissionControl;
 import xtream.Globals.LSRMType;
 import xtream.core.Core.ExecutionState;
 import xtream.core.loadshedding.FederalLoadShedder;
+import xtream.core.loadshedding.ILSStore;
 import xtream.core.loadshedding.LSOffer;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.IOutPort;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.AggOutPort;
+import xtream.io.IInPort;
+import xtream.io.IOutPort;
+import xtream.io.TxtFileOutPort;
 import xtream.lsrm.ILSRMOP;
-import xtream.structures.AggOutPort;
-import xtream.structures.TxtFileOutPort;
+import xtream.query.IQuery;
+import xtream.structures.ITuple;
 
 /**
  * @author Mohammad
@@ -52,12 +52,13 @@ import xtream.structures.TxtFileOutPort;
 public class MemoryMonitor extends Thread implements IInPort {
 
 	protected TxtFileOutPort freeMemoryStat; // free memory statistics (percent)
-	protected TxtFileOutPort usedMemoryStat; // memory usage statistics (percent)
+	protected TxtFileOutPort usedMemoryStat; // memory usage statistics
+												// (percent)
 	protected AggOutPort totalTQoSStat; // TQoS statistic
 	protected AggOutPort totalRTStat; // RT statistic
 	protected AggOutPort totalPTStat; // PT statistic
 
-	protected long periodTime;
+	protected long periodTime; // size of periods (msec)
 	protected boolean screenShow; // to print results online (to screen)
 	protected int counter; // counter for output
 	protected boolean isOpen; // port status
@@ -97,13 +98,13 @@ public class MemoryMonitor extends Thread implements IInPort {
 				maxmem = Runtime.getRuntime().maxMemory();
 				freemem = Runtime.getRuntime().freeMemory(); // input statistics
 				freeMemoryStat.WriteStr("" + counter + ","
-						+ ((double)freemem / maxmem));
+						+ ((double) freemem / maxmem));
 				usedmem = Runtime.getRuntime().totalMemory() - freemem; // input
 				// statistics
 				if (lastUsedMem < 0)
 					lastUsedMem = usedmem;
 				usedMemoryStat.WriteStr("" + counter + ","
-						+ ((double)usedmem / maxmem));
+						+ ((double) usedmem / maxmem));
 				tplcnt = Globals.core.GetTuplesCount(); // input
 
 				for (IQuery q : Globals.core.getQueries()) {

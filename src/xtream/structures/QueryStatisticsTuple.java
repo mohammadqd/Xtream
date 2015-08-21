@@ -26,10 +26,7 @@
 package xtream.structures;
 
 import xtream.Globals;
-import xtream.interfaces.IAggTuple;
-import xtream.interfaces.IQoS;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.query.IQuery;
 
 /**
  * This tuple includes query statistics including QoS

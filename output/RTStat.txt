@@ -1,0 +1,2 @@
+0,0.0,1.0,10
+[TOTAL MEAN],0.0, Total Sum,0.0, Total Weight,1.0, Total Count: 10

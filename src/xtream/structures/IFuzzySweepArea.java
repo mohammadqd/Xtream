@@ -23,63 +23,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
  */
-package xtream.interfaces;
+package xtream.structures;
 
 import java.util.Iterator;
 
 /**
  * @author ghalambor
- * 
+ *
  */
-public interface ISweepArea {
-
+public interface IFuzzySweepArea extends ISweepArea {
+	
 	/**
-	 * @param tpl
-	 *            insert tuple to sweeparea
-	 */
-	public void Insert(ITuple tpl);
-
-	/**
-	 * replaces first occurrence of oldtuple with newtuple
-	 * 
-	 * @param oldTpl
-	 *            old tuple to be replaced by new tuple
-	 * @param newTpl
-	 *            new tuple to be replace for old tuple
-	 */
-	public void Replace(ITuple oldTpl, ITuple newTpl);
-
-	/**
-	 * @return iterator to scan all tuples
-	 */
-	public Iterator<ITuple> GetIterator();
-
-	/**
-	 * to extract tuples which should be removed Whenever the iterator returns
-	 * an element, this element is removed from the SweepArea
+	 * to run a threshold-based query and return results
 	 * 
 	 * @param tpl
 	 *            tuple as a parameter for query
 	 * @param j
 	 *            j is 1 or 2 defining order of parameters
-	 * @return iterator to results (tuples which should be removed)
+	 * @param threshold threshold for threshold-based queries in [0,1]
+	 * @return iterator to results
 	 */
-	public Iterator<ITuple> ExtractElements(ITuple tpl, int j);
-
+	public Iterator<FuzzyQueryResult> FQuery(ITuple tpl, int j, double threshold);
+	
 	/**
-	 * to purge unused tuples
-	 * 
-	 * @param tpl
-	 *            tuple as a parameter for query
-	 * @param j
-	 *            j is 1 or 2 defining order of parameters
-	 * @return number of removed tuples
+	 * Set probability threshold for outputs in [0,1]
+	 * @param pt new probability threshold for outputs in [0,1]
+	 * @return guaranteed probability threshold (may be more than pt)
 	 */
-	public int PurgeElements(ITuple tpl, int j);
-
+	public double SetPT(double pt);
+	
 	/**
-	 * @return number of tuples in sweeparea
+	 * @return probability threshold for outputs in [0,1]
 	 */
-	public int GetCount();
+	public double GetPT();
 
 }

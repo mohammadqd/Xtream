@@ -33,20 +33,18 @@ import java.util.Vector;
 import xtream.Globals;
 import xtream.Globals.Monitoring_Modes;
 import xtream.core.Core.ExecutionState;
+import xtream.core.loadshedding.ILSStore;
 import xtream.core.loadshedding.LSOffer;
 import xtream.core.log.XLogger;
 import xtream.core.log.XLogger.SeverityLevel;
 import xtream.core.User;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.IOperator;
-import xtream.interfaces.IOutPort;
-import xtream.interfaces.IQoS;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
+import xtream.io.IOutPort;
 import xtream.plr.PTRTQoS;
 import xtream.structures.AProjection;
 import xtream.structures.AggTuple;
+import xtream.structures.IQoS;
+import xtream.structures.ITuple;
 import xtream.structures.QueryStatisticsTuple;
 
 /**
@@ -58,9 +56,11 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 	protected IOperator root; // query root operator (top and last operator)
 	protected List<IOperator> operators; // all query operators
 	protected Vector<IOutPort> outPorts; // out ports for final results
-	protected Vector<IOutPort> outStatisticsPorts; // out ports for statistical results
-	protected Vector<IInPort> inPorts;	// in ports to get input tuples
-	protected Vector<IOperator> leafOperators; // leaf operators which firstly get input tuples
+	protected Vector<IOutPort> outStatisticsPorts; // out ports for statistical
+													// results
+	protected Vector<IInPort> inPorts; // in ports to get input tuples
+	protected Vector<IOperator> leafOperators; // leaf operators which firstly
+												// get input tuples
 	protected boolean isOpen;
 	protected double currentART; // last computed average response time
 	protected double currentPT; // last set probability-threshold
@@ -69,8 +69,9 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 	protected String qname; // query name
 	protected MeanRTAgg rtAgg; // to compute response-time aggregate of output
 								// tuples
-	protected Project statisticsPrj;
-	protected long totalResults;
+	protected Project statisticsPrj; // project operator to compute internal
+										// aggregates
+	protected long totalResults; // to hold total number of results (for log)
 
 	/**
 	 * @param qosWeight
@@ -185,8 +186,7 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 				for (IOperator op : leafOperators) {
 					op.run(Globals.OpExeTimeSlice);
 				}
-				sleep(Globals.OpExeTimeSlice); // OPTIONAL to prevent
-												// running
+				sleep(Globals.OpExeTimeSlice); // OPTIONAL to prevent running
 												// empty loops (very effective!)
 			}
 		} catch (Throwable e) {
@@ -373,7 +373,10 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 			if (!owner.isSystemUser())
 				Globals.core.NewResult(tpl, this);
 		} catch (IOException e) {
-			e.printStackTrace();
+			XLogger.Log(
+					"AQuery",
+					"Exception in xtream.query.AQuery.CheckResultTuple: "
+							+ e.getMessage(), SeverityLevel.ERROR);
 		}
 	}
 
@@ -385,8 +388,6 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 	}
 
 	public void LSCommand(LSOffer offer) {
-		// if (Globals.MONITORING_MODE == Monitoring_Modes.Full)
-		// System.out.println("\n LSCommand: Query: "+qname+" Offer: "+ offer);
 		SetPT(offer.getNewPT());
 	}
 
@@ -399,13 +400,11 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 	public LSOffer[] getLSOffers(double[] newPTs) {
 		if (root != null && root instanceof ILSStore) {
 			LSOffer[] offers = ((ILSStore) root).getLSOffers(newPTs);
-			for (LSOffer offer: offers) {
+			for (LSOffer offer : offers) {
 				offer.SetCosts();
 			}
 			return offers;
 		} else
 			return null;
-		// System.out.println("\nLS Offer from operator: "+((AOperator)operators.get(8)).opName);//+" Synopsis size: "+(((ABinaryJoin)operators.get(8)).synopses[0].GetCount()+((ABinaryJoin)operators.get(8)).synopses[1].GetCount()));
-		// return ((ILSStore)operators.get(8)).getLSOffers(newPTs);
 	}
 }

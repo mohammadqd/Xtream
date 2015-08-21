@@ -23,34 +23,72 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
  */
-package xtream.interfaces;
+package xtream.io;
 
-import xtream.core.loadshedding.LSOffer;
+import java.io.IOException;
+
+import xtream.structures.ITuple;
 
 /**
- * Interface for Load Shedding Capable Stores
+ * Simple Out Port to print tuples on stdout
  * 
  * @author ghalambor
  * 
  */
-public interface ILSStore {
+public class STDOutPort implements IOutPort {
 
 	/**
-	 * to create LSOffers
 	 * 
-	 * @param newPTs
-	 *            array of new probability-threshold, so offers will be made
-	 *            based on these PTs
-	 * @return array of Load Shedding Offers
 	 */
-	public LSOffer[] getLSOffers(double[] newPTs);
+	public STDOutPort() {
+	}
 
-	/**
-	 * to execute LSCommands
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param offer
-	 *            load shedding offer to perform
+	 * @see xtream.interfaces.IInPort#isOpen()
 	 */
-	public void LSCommand(LSOffer offer);
+	@Override
+	public boolean isOpen() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see xtream.interfaces.IInPort#Open()
+	 */
+	@Override
+	public void Open() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see xtream.interfaces.IInPort#Close()
+	 */
+	@Override
+	public void Close() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see xtream.interfaces.IOutPort#PutTuple(xtream.interfaces.ITuple, int)
+	 */
+	@Override
+	public void PutTuple(ITuple tp, int i) throws IOException {
+		System.out.println(tp);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see xtream.interfaces.IOutPort#isUnary()
+	 */
+	@Override
+	public boolean isUnary() {
+		return true;
+	}
 
 }

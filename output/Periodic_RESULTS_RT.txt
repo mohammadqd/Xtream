@@ -1,0 +1,2 @@
+0,100.99999999999999,0.2,2
+[TOTAL MEAN],100.99999999999999, Total Sum,20.2, Total Weight,0.2, Total Count: 2

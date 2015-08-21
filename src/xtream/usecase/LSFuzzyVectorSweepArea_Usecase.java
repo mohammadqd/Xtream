@@ -7,12 +7,12 @@ import xtream.Globals;
 import xtream.core.Core;
 import xtream.core.loadshedding.LSFuzzyVectorSweepArea;
 import xtream.core.loadshedding.LSOffer;
-import xtream.interfaces.ITuple;
 import xtream.plr.PPos;
 import xtream.structures.ABooleanPredicate;
 import xtream.structures.AFuzzyPredicate;
 import xtream.structures.AggTuple;
 import xtream.structures.FuzzyQueryResult;
+import xtream.structures.ITuple;
 
 public class LSFuzzyVectorSweepArea_Usecase {
 

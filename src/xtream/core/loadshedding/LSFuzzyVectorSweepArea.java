@@ -30,14 +30,14 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 import xtream.Globals;
-import xtream.interfaces.IFuzzySweepArea;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.ITuple;
 import xtream.structures.ABooleanPredicate;
 import xtream.structures.AFuzzyPredicate;
 import xtream.structures.FuzzyQueryResult;
 import xtream.structures.FuzzyVectorSweepArea;
+import xtream.structures.IFuzzySweepArea;
+import xtream.structures.ITuple;
 import xtream.structures.MultiIterator;
 
 /**

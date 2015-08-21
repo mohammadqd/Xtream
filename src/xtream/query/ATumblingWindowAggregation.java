@@ -31,10 +31,9 @@ import java.util.Vector;
 
 import xtream.Globals;
 import xtream.core.Core.ExecutionState;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
 import xtream.structures.AAggregation;
+import xtream.structures.ITuple;
 
 /**
  * <p>

@@ -23,18 +23,42 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
  */
-package xtream.interfaces;
+package xtream.core.loadshedding;
+
+import xtream.Globals;
+import xtream.query.IQuery;
 
 /**
  * @author ghalambor
  *
  */
-public interface IQoS {
+public interface ILoadShedder {
 	
 	/**
-	 * @return QoS in [0,1]
+	 * @param memToRelease
+	 *            mem to release (byte)
+	 * @return released mem (byte)
 	 */
-	public double GetQoS();
+	public long ReleaseMemory(long memToRelease);
 	
+	/**
+	 * @param um used mem (bytes)
+	 * @param mslp used mem slope 
+	 * @param islp input rate slope
+	 * @return memory size to release (bytes)
+	 */
+	public long MTR(long um, double mslp, double islp);
+	
+	/**
+	 * @param q query to improve its PT one step
+	 */
+	public void QueryQoSImprove(IQuery q);
+	
+	/**
+	 * @return system time (millisec) of last load shedding
+	 */
+	public long GetLastLoadSheddingTime();
+	
+	public void Close();
 
 }

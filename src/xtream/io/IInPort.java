@@ -1,8 +1,8 @@
 /**
  * Project: Xtream
- * Module: Out Port Interface
- * Task: OutPorts should extend this interface
- * Last Modify:
+ * Module: In Port Interface
+ * Task: InPorts should extend this interface
+ * Last Modify: 
  * Created: May 2013
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
@@ -22,48 +22,57 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
-
  */
-package xtream.interfaces;
+package xtream.io;
 
 import java.io.IOException;
+
+import xtream.structures.ITuple;
 
 /**
  * @author ghalambor
  *
  */
-public interface IOutPort {
+public interface IInPort {
 
 	/**
-	 * @return true: port is opean false: port is closed
+	 * @return true: port is opean false: closed
 	 */
 	public boolean isOpen();
 
 	/********************************
-	 * Open to open the output file
+	 * Open to open the inport
 	 */
 	public void Open();
 
 	/********************************
-	 * Close to close the output file
+	 * Close to close the inport
 	 */
 	public void Close();
 
-	/**********************************
-	 * WriteTuple
-	 * 
-	 * @param tp
-	 *            tuple to be written in file
-	 * @param i
-	 *            index for input (for operators/ports with multiple inputs)
-	 * @throws IOException
-	 *             if can not pu t tuple (e.g. no capacity)
+	/**
+	 * @return true if there is some tuples to get
 	 */
-	public void PutTuple(ITuple tp, int i) throws IOException;
+	public boolean hasTuple();
 
 	/**
-	 * @return true: this is a unary operator/port (e.g. select,project,agg)
-	 *         false: binary or more (e.g. join)
+	 * @return next tuple and also remove it from the port
+	 * @throws IOException when io exception happens
 	 */
-	public boolean isUnary();
+	public ITuple nextTuple() throws IOException;
+
+	/**
+	 * To set probability threshold
+	 * 
+	 * @param newPT
+	 *            new probability threshold to set in [0,1]
+	 * @return new set probability threshold (equal of bigger than newPT)
+	 */
+	public double SetPT(double newPT);
+
+	/**
+	 * @return current probability threshold in [0,1]
+	 */
+	public double GetPT();
+
 }

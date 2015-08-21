@@ -28,20 +28,20 @@ package xtream.query;
 import java.io.IOException;
 import java.util.Iterator;
 
+import xtream.Globals;
+import xtream.core.loadshedding.ILSStore;
 import xtream.core.loadshedding.LSOffer;
-import xtream.interfaces.IFuzzySweepArea;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
 import xtream.structures.ABooleanPredicate;
 import xtream.structures.FuzzyQueryResult;
+import xtream.structures.IFuzzySweepArea;
+import xtream.structures.ITuple;
 import xtream.structures.JointTuples;
 import xtream.usecase.VectorSweepArea_Usecase;
 
 /**
- * PUSH based Operator
- * Abstract Self Join in SPJ queries
+ * PUSH based Operator Abstract Self Join in SPJ queries
+ * 
  * @author ghalambor
  * 
  */
@@ -99,12 +99,8 @@ public abstract class ASelfJoin extends AOperator {
 		if (!isOpen())
 			throw new IOException(
 					"ERROR: Trying to put tuples in a closed SelfJoin operator");
-
-		Iterator<FuzzyQueryResult> it; // iterator
-
-		// purge expired tuples
+		Iterator<FuzzyQueryResult> it; // iterator purge expired tuples
 		synopsis.PurgeElements(tp, 1);
-
 		// Query
 		it = synopsis.FQuery(tp, 1, GetPT());
 		while (it.hasNext()) {
@@ -112,8 +108,7 @@ public abstract class ASelfJoin extends AOperator {
 			JointTuples result = new JointTuples(newMatch.conf, tp,
 					newMatch.tpl);
 			if (result.isValid()) {
-				for (OutChannel o : outChannels) { // for all out ports
-													// ports
+				for (OutChannel o : outChannels) { // for all out ports ports
 					ITuple nextTpl = result.Clone();
 					if (isRootOP())
 						GetQuery().CheckResultTuple(nextTpl);
@@ -121,7 +116,6 @@ public abstract class ASelfJoin extends AOperator {
 				}
 			}
 		}
-
 		// Insert new tuple
 		synopsis.Insert(tp);
 	}
@@ -144,9 +138,9 @@ public abstract class ASelfJoin extends AOperator {
 			try {
 				PutTuple(inPort.nextTuple(), 1);
 			} catch (RuntimeException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			} catch (IOException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			}
 		}
 	}

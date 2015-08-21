@@ -32,10 +32,8 @@ import java.util.Vector;
 
 import xtream.Globals;
 import xtream.Globals.Monitoring_Modes;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.ILoadShedder;
-import xtream.interfaces.IQuery;
-import xtream.structures.TxtFileOutPort;
+import xtream.io.TxtFileOutPort;
+import xtream.query.IQuery;
 
 /**
  * @author ghalambor

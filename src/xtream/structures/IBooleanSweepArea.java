@@ -23,41 +23,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
  */
-package xtream.interfaces;
+package xtream.structures;
 
-import xtream.Globals;
+import java.util.Iterator;
 
 /**
  * @author ghalambor
  *
  */
-public interface ILoadShedder {
+public interface IBooleanSweepArea extends ISweepArea {
 	
 	/**
-	 * @param memToRelease
-	 *            mem to release (byte)
-	 * @return released mem (byte)
+	 * to run a query and return results
+	 * 
+	 * @param tpl
+	 *            tuple as a parameter for query
+	 * @param j
+	 *            j is 1 or 2 defining order of parameters
+	 * @return iterator to results
 	 */
-	public long ReleaseMemory(long memToRelease);
-	
-	/**
-	 * @param um used mem (bytes)
-	 * @param mslp used mem slope 
-	 * @param islp input rate slope
-	 * @return memory size to release (bytes)
-	 */
-	public long MTR(long um, double mslp, double islp);
-	
-	/**
-	 * @param q query to improve its PT one step
-	 */
-	public void QueryQoSImprove(IQuery q);
-	
-	/**
-	 * @return system time (millisec) of last load shedding
-	 */
-	public long GetLastLoadSheddingTime();
-	
-	public void Close();
+	public Iterator<ITuple> Query(ITuple tpl, int j);
 
 }

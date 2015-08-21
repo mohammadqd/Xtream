@@ -35,14 +35,14 @@ import xtream.Globals;
 import xtream.Globals.Monitoring_Modes;
 import xtream.core.commonconfig.CommonConfig;
 import xtream.core.loadshedding.FederalLoadShedder;
+import xtream.core.loadshedding.ILoadShedder;
 import xtream.core.log.XLogger;
 import xtream.core.log.XLogger.SeverityLevel;
-import xtream.interfaces.ILoadShedder;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.AggOutPort;
+import xtream.io.TxtFileOutPort;
 import xtream.plr.PTRTQoS;
-import xtream.structures.AggOutPort;
-import xtream.structures.TxtFileOutPort;
+import xtream.query.IQuery;
+import xtream.structures.ITuple;
 
 /**
  * Core of running Xtream

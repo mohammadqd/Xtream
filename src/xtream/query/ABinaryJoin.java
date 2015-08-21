@@ -28,13 +28,12 @@ package xtream.query;
 import java.io.IOException;
 import java.util.Iterator;
 
+import xtream.core.loadshedding.ILSStore;
 import xtream.core.loadshedding.LSOffer;
-import xtream.interfaces.IFuzzySweepArea;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
 import xtream.structures.ABooleanPredicate;
 import xtream.structures.FuzzyQueryResult;
+import xtream.structures.IFuzzySweepArea;
+import xtream.structures.ITuple;
 import xtream.structures.JointTuples;
 import xtream.usecase.VectorSweepArea_Usecase;
 

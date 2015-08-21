@@ -31,8 +31,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 import xtream.Globals;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.ITuple;
+import xtream.structures.ITuple;
 
 /**
  * This is a Load Shedding Capable Priority Queue This structure gurantees
@@ -50,7 +49,7 @@ public class LSBSTStructure implements ILSStore {
 	protected double currentPT; // probability-threshold for results
 
 	/**
-	 * 
+	 * Constructor
 	 */
 	public LSBSTStructure(long leavesCount) {
 		leaves = new LinkedList<LSBSTNode>();
@@ -59,6 +58,11 @@ public class LSBSTStructure implements ILSStore {
 
 	}
 
+	/**
+	 * A recursive function to create tree structure
+	 * @param levelsRemained tree levels remained
+	 * @param parent parent node
+	 */
 	protected void RecursiveLSBSTCreate(long levelsRemained, LSBSTNode parent) {
 		if (levelsRemained > 0) {
 			// Left Child
@@ -198,10 +202,16 @@ public class LSBSTStructure implements ILSStore {
 		return root.toString();
 	}
 
+	/**
+	 *
+	 */
 	public double GetPT() {
 		return currentPT;
 	}
 
+	/**
+	 *
+	 */
 	public double SetPT(double newPT) {
 		Collections.sort(leaves);
 		int index = 0;
@@ -224,6 +234,9 @@ public class LSBSTStructure implements ILSStore {
 			return root.childrenCount;
 	}
 
+	/* (non-Javadoc)
+	 * @see xtream.core.loadshedding.ILSStore#getLSOffers(double[])
+	 */
 	@Override
 	public LSOffer[] getLSOffers(double[] newPTs) {
 		Arrays.sort(newPTs);

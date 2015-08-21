@@ -23,9 +23,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
  */
-package xtream.interfaces;
+package xtream.query;
 
 import xtream.core.User;
+import xtream.io.IInPort;
+import xtream.io.IOutPort;
+import xtream.structures.IQoS;
+import xtream.structures.ITuple;
 
 /**
  * This is an interface for query plans

@@ -1,8 +1,6 @@
 package xtream.structures;
 
 import java.util.Comparator;
-import xtream.interfaces.IFuzzySweepArea;
-import xtream.interfaces.ITuple;
 
 public abstract class AFuzzySweepArea implements IFuzzySweepArea {
 

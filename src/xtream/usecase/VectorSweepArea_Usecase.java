@@ -29,12 +29,12 @@ import java.util.Iterator;
 
 import xtream.Globals;
 import xtream.core.Core;
-import xtream.interfaces.ITuple;
 import xtream.structures.ABooleanPredicate;
 import xtream.structures.AFuzzyPredicate;
 import xtream.structures.AggTuple;
 import xtream.structures.FuzzyQueryResult;
 import xtream.structures.FuzzyVectorSweepArea;
+import xtream.structures.ITuple;
 
 /**
  * @author ghalambor

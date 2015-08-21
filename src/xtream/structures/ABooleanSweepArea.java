@@ -27,9 +27,6 @@ package xtream.structures;
 
 import java.util.Comparator;
 
-import xtream.interfaces.IBooleanSweepArea;
-import xtream.interfaces.ITuple;
-
 /**
  * @author ghalambor
  *

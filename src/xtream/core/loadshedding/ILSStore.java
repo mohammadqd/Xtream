@@ -1,9 +1,9 @@
 /**
  * Project: Xtream
- * Module: IO port interface
- * Task: IO port interface
- * Last Modify: 2013
- * Created: 2013
+ * Module:
+ * Task:
+ * Last Modify:
+ * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
  * LICENSE:
@@ -23,12 +23,33 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
  */
-package xtream.interfaces;
+package xtream.core.loadshedding;
+
 
 /**
+ * Interface for Load Shedding Capable Stores
+ * 
  * @author ghalambor
- *
+ * 
  */
-public interface IIOPort extends IInPort, IOutPort {
+public interface ILSStore {
+
+	/**
+	 * to create LSOffers
+	 * 
+	 * @param newPTs
+	 *            array of new probability-threshold, so offers will be made
+	 *            based on these PTs
+	 * @return array of Load Shedding Offers
+	 */
+	public LSOffer[] getLSOffers(double[] newPTs);
+
+	/**
+	 * to execute LSCommands
+	 * 
+	 * @param offer
+	 *            load shedding offer to perform
+	 */
+	public void LSCommand(LSOffer offer);
 
 }

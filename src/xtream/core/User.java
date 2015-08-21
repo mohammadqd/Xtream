@@ -28,7 +28,7 @@ package xtream.core;
 import java.util.Iterator;
 import java.util.Vector;
 
-import xtream.interfaces.IQuery;
+import xtream.query.IQuery;
 
 /**
  * To model users' information and queries

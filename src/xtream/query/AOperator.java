@@ -31,14 +31,12 @@ import java.util.Vector;
 
 import xtream.Globals;
 import xtream.Globals.Monitoring_Modes;
+import xtream.core.loadshedding.ILSStore;
 import xtream.core.loadshedding.LSOffer;
 import xtream.core.loadshedding.LSResponseTimeContainer;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.IOperator;
-import xtream.interfaces.IOutPort;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
+import xtream.io.IOutPort;
+import xtream.structures.ITuple;
 
 /**
  * base for other operators

@@ -1,8 +1,8 @@
 /**
  * Project: Xtream
- * Module: In Port Interface
- * Task: InPorts should extend this interface
- * Last Modify: 
+ * Module: Out Port Interface
+ * Task: OutPorts should extend this interface
+ * Last Modify:
  * Created: May 2013
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
@@ -22,55 +22,50 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
+
  */
-package xtream.interfaces;
+package xtream.io;
 
 import java.io.IOException;
+
+import xtream.structures.ITuple;
 
 /**
  * @author ghalambor
  *
  */
-public interface IInPort {
+public interface IOutPort {
 
 	/**
-	 * @return true: port is opean false: closed
+	 * @return true: port is opean false: port is closed
 	 */
 	public boolean isOpen();
 
 	/********************************
-	 * Open to open the inport
+	 * Open to open the output file
 	 */
 	public void Open();
 
 	/********************************
-	 * Close to close the inport
+	 * Close to close the output file
 	 */
 	public void Close();
 
-	/**
-	 * @return true if there is some tuples to get
-	 */
-	public boolean hasTuple();
-
-	/**
-	 * @return next tuple and also remove it from the port
-	 * @throws IOException when io exception happens
-	 */
-	public ITuple nextTuple() throws IOException;
-
-	/**
-	 * To set probability threshold
+	/**********************************
+	 * WriteTuple
 	 * 
-	 * @param newPT
-	 *            new probability threshold to set in [0,1]
-	 * @return new set probability threshold (equal of bigger than newPT)
+	 * @param tp
+	 *            tuple to be written in file
+	 * @param i
+	 *            index for input (for operators/ports with multiple inputs)
+	 * @throws IOException
+	 *             if can not pu t tuple (e.g. no capacity)
 	 */
-	public double SetPT(double newPT);
+	public void PutTuple(ITuple tp, int i) throws IOException;
 
 	/**
-	 * @return current probability threshold in [0,1]
+	 * @return true: this is a unary operator/port (e.g. select,project,agg)
+	 *         false: binary or more (e.g. join)
 	 */
-	public double GetPT();
-
+	public boolean isUnary();
 }

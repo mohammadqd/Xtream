@@ -1,9 +1,9 @@
 /**
  * Project: Xtream
- * Module: 
- * Task:
- * Last Modify:
- * Created:
+ * Module: IOperator
+ * Task: A general interface for operators
+ * Last Modify: May 15,2013
+ * Created: 2007
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
  * LICENSE:
@@ -23,22 +23,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
  */
-package xtream.interfaces;
 
-/**
- * for Aggregation Tuples
- * @author ghalambor
- *
- */
-public interface IAggTuple extends ITuple {
-	
-	/**
-	 * @return the value
-	 */
-	public Number getValue();
+package xtream.query;
+
+import xtream.io.IIOPort;
+
+public interface IOperator extends IIOPort {
 
 	/**
-	 * @param value the value to set
+	 * @param ts
+	 *            timeslice to run (millisec)
 	 */
-	public void setValue(Number value);
+	public void run(long ts);
+
+	/**
+	 * To set this operator as root operator (esp. for FLS)
+	 */
+	public void SetAsRootOP();
+
+	/**
+	 * @return if this OP is a root OP
+	 */
+	public boolean isRootOP();
+
+	/**
+	 * @return query which contains this operator, may return null for orphan
+	 *         operators
+	 */
+	public IQuery GetQuery();
 }

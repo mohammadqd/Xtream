@@ -26,7 +26,7 @@
 package xtream.core.monitoring;
 
 import xtream.Globals;
-import xtream.interfaces.ITuple;
+import xtream.structures.ITuple;
 
 /**
  * This is a tuple for measuring memory (for monitoring system)

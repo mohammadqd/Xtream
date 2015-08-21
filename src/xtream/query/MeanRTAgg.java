@@ -25,10 +25,9 @@
  */
 package xtream.query;
 
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
 import xtream.structures.AAggregation;
 import xtream.structures.AggTuple;
+import xtream.structures.ITuple;
 
 /**
  * to produce mean response time aggregation for tuples

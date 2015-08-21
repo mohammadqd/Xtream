@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import xtream.io.TxtFileOutPort;
 import xtream.plr.PLRInPort;
-import xtream.structures.TxtFileOutPort;
 
 
 public class Main {

@@ -26,8 +26,6 @@
 package xtream.structures;
 
 import xtream.Globals;
-import xtream.interfaces.IAggTuple;
-import xtream.interfaces.ITuple;
 
 /**
  * @author ghalambor
