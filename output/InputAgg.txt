@@ -1,2 +1,2 @@
-0,1.0,63.0,63
-[TOTAL MEAN],1.0, Total Sum,63.0, Total Weight,63.0, Total Count: 63
+0,1.0,137.0,137
+[TOTAL MEAN],1.0, Total Sum,137.0, Total Weight,137.0, Total Count: 137

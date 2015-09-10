@@ -36,7 +36,7 @@ import xtream.core.log.XLogger;
 import xtream.core.log.XLogger.SeverityLevel;
 
 /**
- * This class provides us with a simple tranparent mechanism to access config
+ * This class provides us with a simple transparent mechanism to access config
  * file
  */
 public class CommonConfig {
@@ -44,7 +44,25 @@ public class CommonConfig {
 	protected static Properties prop; // config file will be loaded here
 	protected static InputStream input = null; // to read input file
 	protected static boolean initialized = false; // true: config is initialized
+	protected static final String defaultConfigName = "XConfig.txt"; // default config file name
 
+	
+	/**
+	 * @return initialized status
+	 */
+	public static boolean isInitialized() {
+		return initialized;
+	}
+
+	/**
+	 * To initialize CommonConfig using defaultConfigName 
+	 * 
+	 * @return true: initialized false: not initialized
+	 */
+	public static boolean Initialize()
+	{
+		return Initialize(defaultConfigName);
+	}
 	/**
 	 * To initialize CommonConfig
 	 * 

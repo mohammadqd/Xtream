@@ -107,7 +107,7 @@ public class TxtFileOutPort implements IOutPort {
 		// else
 		// throw new IOException(
 		// "ERROR: Putting tuple in a closed TxtFileOutPort!");
-		Globals.core.Exception(new IOException("ERROR: Putting tuple in a closed TxtFileOutPort!"));
+		// Globals.core.Exception(new IOException("ERROR: Putting tuple in a closed TxtFileOutPort!"));
 
 	}// WriteTuple
 

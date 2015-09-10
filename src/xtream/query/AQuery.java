@@ -189,6 +189,8 @@ public abstract class AQuery extends Thread implements IQuery, ILSStore {
 				sleep(Globals.OpExeTimeSlice); // OPTIONAL to prevent running
 												// empty loops (very effective!)
 			}
+		} catch (InterruptedException e) {
+			// do nothing
 		} catch (Throwable e) {
 			Globals.core.Exception(e);
 		} finally {

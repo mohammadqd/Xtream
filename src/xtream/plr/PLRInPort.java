@@ -59,6 +59,10 @@ public class PLRInPort extends Thread implements IInPort {
 	protected String inName = "UNKNOWN FileInPort";
 	protected long totalReadTuples; // total number of read tuples
 
+	public long getTotalReadTuples() {
+		return totalReadTuples;
+	}
+
 	public class OutChannel {
 		public IOutPort outPort;
 		public int index; // input index for out port
@@ -270,9 +274,6 @@ public class PLRInPort extends Thread implements IInPort {
 
 	@Override
 	public synchronized double SetPT(double newPT) {
-		System.out.println("******************************************");
-		System.out.println("*******  TRAP IN  SETPT @ PLRInPort ******");
-		System.out.println("******************************************");
 		currentPT = newPT;
 		return currentPT;
 	}

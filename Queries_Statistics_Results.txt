@@ -1,0 +1,4 @@
+(Query_Statistics QName: Q_ QoS: 0.9960245098039215 Time: 9395) 
+(Query_Statistics QName: Q_ QoS: 0.9956356209150327 Time: 13335) 
+(Query_Statistics QName: Q_ QoS: 0.9961960784313726 Time: 13640) 
+(Query_Statistics QName: Q_ QoS: 0.9954411764705882 Time: 13950) 

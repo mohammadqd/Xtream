@@ -53,19 +53,24 @@ public class XLogger {
 	private volatile static boolean initialized = false;
 
 	/**
-	 * To determine the minimum level of records to log (It uses default logging level from Globals)
+	 * To determine the minimum level of records to log (It uses default logging
+	 * level from Globals)
+	 * 
 	 * @see xtream.Globals#DefaultLoggingLevel
 	 */
 	public static synchronized void setup() throws IOException {
 		setup(Globals.DefaultLoggingLevel);
 	}
-	
+
 	/**
 	 * To determine the minimum level of records to log e.g. Level.FINEST
-	 * @param _logMinLevel minimum level of logging (default is set in Globals)
+	 * 
+	 * @param _logMinLevel
+	 *            minimum level of logging (default is set in Globals)
 	 */
 
-	public static synchronized void setup(java.util.logging.Level _logMinLevel) throws IOException {
+	public static synchronized void setup(java.util.logging.Level _logMinLevel)
+			throws IOException {
 		if (!initialized) {
 			// get the global logger to configure it
 			logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -84,25 +89,31 @@ public class XLogger {
 
 	public static synchronized void Log(String submodule, String message,
 			SeverityLevel level) {
-		if (initialized && logger != null) {
-			String event = String.format("[%s] [%s]", submodule, message);
-			switch (level) {
-			case ERROR:
-				logger.severe(event);
-				break;
-			case WARNING:
-				logger.warning(event);
-				break;
-			case INFO:
-				logger.info(event);
-				break;
-			case DEBUG:
-				logger.fine(event);
-				break;
-			default:
-				logger.finest(event);
+		try {
+			if (!initialized)
+				setup();
+			if (initialized && logger != null) {
+				String event = String.format("[%s] [%s]", submodule, message);
+				switch (level) {
+				case ERROR:
+					logger.severe(event);
+					break;
+				case WARNING:
+					logger.warning(event);
+					break;
+				case INFO:
+					logger.info(event);
+					break;
+				case DEBUG:
+					logger.fine(event);
+					break;
+				default:
+					logger.finest(event);
+				}
 			}
+		}	catch (Exception e)
+		{
+			System.err.println("Exception in Xlogger.Log(): " + e.getMessage());
 		}
 	}
-
 }

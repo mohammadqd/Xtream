@@ -82,6 +82,9 @@ public class Core {
 	 * Constructor
 	 */
 	public Core() {
+		if (!CommonConfig.isInitialized())
+			CommonConfig.Initialize();
+		Globals.CheckConfigValidity();
 		threadsToRun = new Vector<Runnable>();
 		threadExecutor = Executors.newCachedThreadPool();
 		XLogger.Log("CORE", "Creating Xtream Core...", SeverityLevel.INFO);
@@ -95,6 +98,7 @@ public class Core {
 		periodicTQoSStat = new AggOutPort("Periodic_RESULTS_TQoS.txt",
 				CommonConfig.GetConfigIntItem("MONITORING_TIME_PERIOD"));
 		Open(); // open core (io ports)
+		Globals.core = this;
 	}// constructor
 
 	/**
