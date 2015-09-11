@@ -29,6 +29,7 @@ package xtream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 
 import xtream.Globals.AdmissionControl;
 import xtream.Globals.FLSMonitoringType;
@@ -48,11 +49,14 @@ import xtream.experiments.PeriodicDiracDeltaRate;
 import xtream.experiments.PeriodicLinearRate;
 import xtream.experiments.PeriodicTrapezoidalRate;
 import xtream.experiments.UltimateRate;
+import xtream.io.ASimpleInPort;
 import xtream.io.AggOutPort;
 import xtream.io.IOutPort;
+import xtream.io.STDOutPort;
 import xtream.io.TxtFileOutPort;
 import xtream.plr.*;
 import xtream.query.AQuery;
+import xtream.query.SimpleSelectQuery;
 import xtream.structures.*;
 
 /**
@@ -131,9 +135,9 @@ public class Main {
 			XLogger.Log("MAIN", "Creating Threads", SeverityLevel.INFO);
 			AggOutPort inputAgg = new AggOutPort("InputAgg.txt",
 					CommonConfig.GetConfigIntItem("MONITORING_TIME_PERIOD")); // to
-																				// save
-																				// statistics
-																				// about
+			// save
+			// statistics
+			// about
 			// input
 			// stream
 			// PLRInPort rport = new
@@ -199,10 +203,10 @@ public class Main {
 					// for all admin queries
 					admin.getQuery(i).AddQueryStatisticsOutPort(
 							(IOutPort) QQoSQ.GetInPort(1)); // register all
-															// queries to send
-															// their statistics
-															// to
-															// QoSImprovementQuery
+				// queries to send
+				// their statistics
+				// to
+				// QoSImprovementQuery
 				QQoSQ.setPriority(Thread.NORM_PRIORITY);
 				c.AddRunnable(QQoSQ);
 
@@ -242,72 +246,60 @@ public class Main {
 
 	public static void main(String args[]) {
 		try {
-
 			// ========================
 			// ========== INIT ==========
 			// ========================
 			Core xCore = new Core();
-			User systemUser = new User("system", true); // system user (not real
-			// user)
 			User admin = new User("admin");
 			xCore.AddUser(admin);
 
 			// ================================
-			// ========= CREATING Query Plans
+			// ========= CREATING PORTs
+			// ================================
+			ASimpleInPort inPort = new ASimpleInPort("SampleInPort") {
+				@Override
+				protected ITuple ImportNextTuple() {
+					long value = System.currentTimeMillis() % 100;
+					AggTuple newTuple = new AggTuple(value,
+							(double) value / 100);
+					return newTuple;
+				}
+
+				@Override
+				protected long GetNextDelay() {
+					long value = System.currentTimeMillis() % 3;
+					return value * 1000;
+				}
+			};
+
+			STDOutPort outPort = new STDOutPort();
+			// ================================
+			// ========= CREATING Query
 			// ================================
 			XLogger.Log("MAIN", "Creating Query Plans", SeverityLevel.INFO);
-			TxtFileOutPort queryStatisticsResutls = new TxtFileOutPort(
-					"Queries_Statistics_Results.txt");
-			AQuery myQuery = new Query3("Q_", Globals.DEFAULT_QUERY_QOS_WEIGHT,
-					admin);
-			myQuery.AddQueryStatisticsOutPort(queryStatisticsResutls);
+			AQuery myQuery = new SimpleSelectQuery("Q_",
+					Globals.DEFAULT_QUERY_QOS_WEIGHT, admin,
+					new ABooleanPredicate() {
+						public boolean Predicate(ITuple... tpls) {
+							Number val = ((AggTuple) tpls[0]).getValue();
+							return (val.intValue() % 2 == 0);
+						}
+					}, outPort);
 			admin.addQuery(myQuery);
-			myQuery.Open();
-			xCore.AddRunnable(myQuery);
-
-			// ================================
-			// ========== CREATING THREADS =====
-			// ================================
-			XLogger.Log("MAIN", "Creating Threads", SeverityLevel.INFO);
-			AggOutPort inputAgg = new AggOutPort("InputAgg.txt",
-					CommonConfig.GetConfigIntItem("MONITORING_TIME_PERIOD")); // to
-																				// save
-																				// statistics
-																				// about
-			PLRInPort inPort = new PLRInPort("RoadPort",
-					"data/datafile5min_1XW_modified.dat", 154); // 154: random
-			inPort.AddAggOutPort(inputAgg);
-			inPort.setSyntheticDelayGen(new PeriodicConstantRate(150,
-					Globals.SYNTHETIC_INPUT_TIME_PERIOD));
-			for (int i = 0; i < admin.GetQueriesCount(); i++)
-				// for all admin queries
-				for (int j = 0; j < admin.getQuery(i).InPortsCount(); j++)
-					inPort.AddOutPort(
-							(IOutPort) admin.getQuery(i).GetInPort(j), i);
-			xCore.AddRunnable(inPort);
-			
-
+			inPort.AddOutPort((IOutPort) admin.getQuery(0).GetInPort(0), 0);
 			// ================================
 			// ========== RUNNING ==============
 			// ================================
-
+			xCore.AddRunnable(myQuery);
+			xCore.AddRunnable(inPort);
 			XLogger.Log("MAIN", "Running Core...", SeverityLevel.INFO);
 			xCore.Run(CommonConfig.GetConfigIntItem("TOTAL_RUNTIME"), false);
-			System.out.print("\nXtream: Finished!");
+			XLogger.Log("MAIN", "Normal Finish!", SeverityLevel.INFO);
 		} catch (OutOfMemoryError e) {
 			XLogger.Log("MAIN", "ERROR: Outta Memory!!!.", SeverityLevel.ERROR);
-			System.out
-					.println("++++++++++++++++++++++++++++++++++++ Outta Memo ");
-		}
-		// catch (IOException e) {
-		// XLogger.Log("MAIN", "ERROR: IOException: " + e.getMessage(),
-		// SeverityLevel.ERROR);
-		// e.printStackTrace();
-		// }
-		catch (Exception e) {
+		} catch (Exception e) {
 			XLogger.Log("MAIN", "ERROR: Exception: " + e.getMessage(),
 					SeverityLevel.ERROR);
-			e.printStackTrace();
 		}
 	}
 }
