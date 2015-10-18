@@ -26,14 +26,14 @@
 package xtream.plr;
 
 import xtream.core.User;
-import xtream.interfaces.ITuple;
+import xtream.io.TxtFileOutPort;
 import xtream.query.AQuery;
 import xtream.query.Project;
 import xtream.query.Select;
 import xtream.structures.AProjection;
 import xtream.structures.ABooleanPredicate;
+import xtream.structures.ITuple;
 import xtream.structures.TupleQueue;
-import xtream.structures.TxtFileOutPort;
 
 /**
  * @author ghalambor

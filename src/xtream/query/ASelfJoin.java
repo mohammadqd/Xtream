@@ -1,6 +1,6 @@
 /**
  * Project: Xtream
- * Module:
+ * Module: Abstract Self Join in SPJ queries
  * Task:
  * Last Modify:
  * Created:
@@ -28,29 +28,32 @@ package xtream.query;
 import java.io.IOException;
 import java.util.Iterator;
 
+import xtream.Globals;
+import xtream.core.loadshedding.ILSStore;
 import xtream.core.loadshedding.LSOffer;
-import xtream.interfaces.IFuzzySweepArea;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
 import xtream.structures.ABooleanPredicate;
 import xtream.structures.FuzzyQueryResult;
+import xtream.structures.IFuzzySweepArea;
+import xtream.structures.ITuple;
 import xtream.structures.JointTuples;
 import xtream.usecase.VectorSweepArea_Usecase;
 
 /**
- * PUSH based Operator
+ * PUSH based Operator Abstract Self Join in SPJ queries
  * 
  * @author ghalambor
  * 
  */
 public abstract class ASelfJoin extends AOperator {
 
-	public IFuzzySweepArea synopsis; // synopsis should be created in
-										// realized
+	/**
+	 * synopsis should be created in realized versions
+	 */
+	public IFuzzySweepArea synopsis;
+
 	// classes
-	protected long timeWindowSize; // size of time window
+	protected long timeWindowSize; // size of time window (msec)
 	protected ABooleanPredicate DefaultRemovePredicate; // default remove
 														// predicate removes
 														// expired tuples based
@@ -58,10 +61,14 @@ public abstract class ASelfJoin extends AOperator {
 														// and confidence
 
 	/**
-	 * @param threshold
-	 *            for threshold-based join (equality resolution)
 	 * @param timeWindowSize
-	 *            size of time window
+	 *            size of time window (msec) default is in
+	 *            xtream.Globals#OVERLOAD_CHECKING_TIME_PERIOD
+	 * @param opName
+	 *            operator name
+	 * @param parentQuery
+	 *            link to parent query
+	 * @see xtream.query.ABinaryJoin#ABinaryJoin(long, String, IQuery)
 	 */
 	public ASelfJoin(final long timeWindowSize, String opName,
 			IQuery parentQuery) {
@@ -92,12 +99,8 @@ public abstract class ASelfJoin extends AOperator {
 		if (!isOpen())
 			throw new IOException(
 					"ERROR: Trying to put tuples in a closed SelfJoin operator");
-
-		Iterator<FuzzyQueryResult> it; // iterator
-
-		// purge expired tuples
+		Iterator<FuzzyQueryResult> it; // iterator purge expired tuples
 		synopsis.PurgeElements(tp, 1);
-
 		// Query
 		it = synopsis.FQuery(tp, 1, GetPT());
 		while (it.hasNext()) {
@@ -105,8 +108,7 @@ public abstract class ASelfJoin extends AOperator {
 			JointTuples result = new JointTuples(newMatch.conf, tp,
 					newMatch.tpl);
 			if (result.isValid()) {
-				for (OutChannel o : outChannels) { // for all out ports
-													// ports
+				for (OutChannel o : outChannels) { // for all out ports ports
 					ITuple nextTpl = result.Clone();
 					if (isRootOP())
 						GetQuery().CheckResultTuple(nextTpl);
@@ -114,7 +116,6 @@ public abstract class ASelfJoin extends AOperator {
 				}
 			}
 		}
-
 		// Insert new tuple
 		synopsis.Insert(tp);
 	}
@@ -137,9 +138,9 @@ public abstract class ASelfJoin extends AOperator {
 			try {
 				PutTuple(inPort.nextTuple(), 1);
 			} catch (RuntimeException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			} catch (IOException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			}
 		}
 	}

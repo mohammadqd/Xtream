@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: Abstract Projection Function
+ * Task: Projection Function
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -25,16 +25,18 @@
  */
 package xtream.structures;
 
-import xtream.interfaces.ITuple;
 
 /**
+ * Abstract Projection Function
+ * 
  * @author ghalambor
  *
  */
 public abstract class AProjection {
-	
+
 	/**
-	 * @param tp input tuple
+	 * @param tp
+	 *            input tuple
 	 * @return the new tuple after projection process
 	 */
 	public abstract ITuple ProjectComputation(ITuple tp);

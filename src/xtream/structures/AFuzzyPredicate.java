@@ -25,7 +25,6 @@
  */
 package xtream.structures;
 
-import xtream.interfaces.ITuple;
 
 /**
  * @author ghalambor
@@ -34,7 +33,8 @@ import xtream.interfaces.ITuple;
 public abstract class AFuzzyPredicate {
 
 	/**
-	 * @param tpls array of tuples to check prediction
+	 * @param tpls
+	 *            array of tuples to check prediction
 	 * @return degree of satisfaction in [0,1]
 	 */
 	public abstract double Predicate(ITuple... tpls);

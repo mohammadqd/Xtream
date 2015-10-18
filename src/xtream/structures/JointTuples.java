@@ -26,7 +26,6 @@
 package xtream.structures;
 
 import xtream.Globals;
-import xtream.interfaces.ITuple;
 
 /**
  * @author ghalambor
@@ -38,10 +37,16 @@ public class JointTuples implements ITuple {
 	// NOTE: On changing fields, update constructor & clone methods
 	// ------------------------------------------------------------
 
-	public ITuple[] tuples; // array of join tuples
+	/**
+	 * array of join tuples
+	 */
+	public ITuple[] tuples;
 	protected long time;
 	protected long expirationTime;
-	public double conf; // confidence
+	/**
+	 * confidence
+	 */
+	public double conf;
 	protected long responseTime;
 
 	/**
@@ -71,6 +76,8 @@ public class JointTuples implements ITuple {
 	/**
 	 * @param tples
 	 *            tuples to join
+	 * @param conf
+	 *            confidence
 	 */
 	public JointTuples(double conf, ITuple... tples) {
 		time = 0;

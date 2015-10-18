@@ -27,10 +27,10 @@ package xtream.core.loadshedding;
 
 import xtream.Globals;
 import xtream.Globals.LSOfferSelectionMethod;
-import xtream.interfaces.IAggTuple;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
 import xtream.plr.PTRTQoS;
+import xtream.query.IQuery;
+import xtream.structures.IAggTuple;
+import xtream.structures.ITuple;
 
 /**
  * Load Shedding Offer

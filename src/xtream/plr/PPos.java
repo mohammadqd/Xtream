@@ -26,7 +26,7 @@
 package xtream.plr;
 
 import xtream.Globals;
-import xtream.interfaces.ITuple;
+import xtream.structures.ITuple;
 import xtream.types.BoundedNormal;
 
 /**

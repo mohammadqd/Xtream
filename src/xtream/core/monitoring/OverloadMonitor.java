@@ -10,14 +10,14 @@ import xtream.Globals.AdmissionControl;
 import xtream.Globals.FLSMonitoringType;
 import xtream.Globals.LSRMType;
 import xtream.core.Core.ExecutionState;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.IOutPort;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.AggOutPort;
+import xtream.io.IInPort;
+import xtream.io.IOutPort;
+import xtream.io.TxtFileOutPort;
 import xtream.lsrm.ILSRMOP;
-import xtream.structures.AggOutPort;
+import xtream.query.IQuery;
+import xtream.structures.ITuple;
 import xtream.structures.JointTuples;
-import xtream.structures.TxtFileOutPort;
 
 public class OverloadMonitor extends Thread implements IInPort {
 

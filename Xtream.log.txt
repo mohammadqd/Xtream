@@ -1,0 +1,5 @@
+[INFO] Sep 11,2015 13:16 [CommonConfig] [Initializing Config from XConfig.txt]
+[INFO] Sep 11,2015 13:16 [CORE] [Creating Xtream Core...]
+[INFO] Sep 11,2015 13:16 [MAIN] [Creating Query Plans]
+[INFO] Sep 11,2015 13:16 [MAIN] [Running Core...]
+[INFO] Sep 11,2015 13:16 [CORE] [Start Running Core]

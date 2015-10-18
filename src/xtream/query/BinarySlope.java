@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: binary slope (compute slope based on two values)
+ * Task: Computes slope of two consequent <i>IAggTuples</i> based on their values and start timestamps
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -25,10 +25,9 @@
  */
 package xtream.query;
 
-import xtream.interfaces.IAggTuple;
-import xtream.interfaces.IQuery;
 import xtream.structures.AAggregation;
 import xtream.structures.AggTuple;
+import xtream.structures.IAggTuple;
 
 /**
  * Computes slope of two consequent <i>IAggTuples</i> based on their values and start timestamps
@@ -39,7 +38,8 @@ public class BinarySlope extends ADistributiveAggregation {
 
 	/**
 	 * NOTE: Confidences of the results are computed based on intentional semantics 
-	 * @param opName
+	 * @param opName operator name
+	 * @param parentQuery parent query
 	 */
 	public BinarySlope(String opName,IQuery parentQuery) {
 		super(opName,parentQuery);
@@ -60,12 +60,6 @@ public class BinarySlope extends ADistributiveAggregation {
 									.getValue().doubleValue())
 									/ (tpls[1].GetTimestamp()[0] - tpls[0]
 											.GetTimestamp()[0])), tpls[1].GetTimestamp()[0],tpls[0].GetConf()*tpls[1].GetConf());
-					// DEBUG - SHOW
-//					System.out.println("\n"+"old val: "+tpls[0].getValue().doubleValue()+" New: "+tpls[1].getValue().doubleValue()+ " slope: "+new Double(
-//							(tpls[1].getValue().doubleValue() - tpls[0]
-//									.getValue().doubleValue())
-//									/ (tpls[1].GetTimestamp()[0] - tpls[0]
-//											.GetTimestamp()[0])));
 					return aggtpl;
 				} else
 					return null; // no tuple to aggregate!

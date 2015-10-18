@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: MeanRT Aggregate
+ * Task: to produce mean response time aggregation for tuples
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -25,21 +25,20 @@
  */
 package xtream.query;
 
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
 import xtream.structures.AAggregation;
 import xtream.structures.AggTuple;
+import xtream.structures.ITuple;
 
 /**
  * to produce mean response time aggregation for tuples
  * 
  * @author ghalambor
- * 
+ * @see xtream.query.ATumblingWindowAggregation
  */
 public class MeanRTAgg extends ATumblingWindowAggregation {
 
 	/**
-	 * @param windowSize
+	 * @see xtream.query.ATumblingWindowAggregation#ATumblingWindowAggregation(long, long, String, IQuery)
 	 */
 	public MeanRTAgg(long timeWindowSize, long tupleWindowSize, String opName,IQuery parentQuery) {
 		super(timeWindowSize,tupleWindowSize, opName,parentQuery);

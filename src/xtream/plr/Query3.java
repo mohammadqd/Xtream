@@ -28,26 +28,27 @@ package xtream.plr;
 import xtream.Globals;
 import xtream.Globals.LSRMType;
 import xtream.core.User;
+import xtream.core.commonconfig.CommonConfig;
 import xtream.core.loadshedding.LSFuzzyVectorSweepArea;
 import xtream.core.loadshedding.LSTupleQueue;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.IOperator;
-import xtream.interfaces.IQueue;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
+import xtream.io.TxtFileOutPort;
 import xtream.lsrm.ILSRMOP;
 import xtream.lsrm.RandomDrop;
 import xtream.query.ABinaryJoin;
 import xtream.query.AOperator;
 import xtream.query.AQuery;
 import xtream.query.ASelfJoin;
+import xtream.query.IOperator;
 import xtream.query.ProbCounter;
 import xtream.query.Project;
 import xtream.query.Select;
 import xtream.structures.ABooleanPredicate;
 import xtream.structures.AFuzzyPredicate;
 import xtream.structures.AProjection;
+import xtream.structures.IQueue;
+import xtream.structures.ITuple;
 import xtream.structures.JointTuples;
-import xtream.structures.TxtFileOutPort;
 
 /**
  * @author ghalambor
@@ -302,7 +303,7 @@ public class Query3 extends AQuery {
 		SetRootOperator(join3);
 		AddLeafOperators(sel1, sel2);
 
-		SetPT(Globals.PROBABILITY_THRESHOLD);
+		SetPT(CommonConfig.GetConfigDoubleItem("DEFAULT_PROBABILITY_THRESHOLD"));
 	}
 
 	/*

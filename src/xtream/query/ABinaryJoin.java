@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: Abstract Binary Join
+ * Task: base for binary join operators
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -28,13 +28,12 @@ package xtream.query;
 import java.io.IOException;
 import java.util.Iterator;
 
+import xtream.core.loadshedding.ILSStore;
 import xtream.core.loadshedding.LSOffer;
-import xtream.interfaces.IFuzzySweepArea;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
 import xtream.structures.ABooleanPredicate;
 import xtream.structures.FuzzyQueryResult;
+import xtream.structures.IFuzzySweepArea;
+import xtream.structures.ITuple;
 import xtream.structures.JointTuples;
 import xtream.usecase.VectorSweepArea_Usecase;
 
@@ -44,13 +43,18 @@ import xtream.usecase.VectorSweepArea_Usecase;
  */
 public abstract class ABinaryJoin extends AOperator {
 
-	public IFuzzySweepArea[] synopses; // synopsis should be created in
-											// realized classes
+	/**
+	 * synopsis should be created in realized classes
+	 */
+	public IFuzzySweepArea[] synopses;  
+										
 	protected long timeWindowSize; // size of time window
 	protected ABooleanPredicate DefaultRemovePredicate;
 
 	/**
-	 * 
+	 * @param timeWindowSize size of time window (msec) default is in xtream.Globals#OVERLOAD_CHECKING_TIME_PERIOD 
+	 * @param opName operator name
+	 * @param parentQuery link to parent query
 	 */
 	public ABinaryJoin(final long timeWindowSize, String opName,
 			IQuery parentQuery) {

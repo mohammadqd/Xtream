@@ -29,11 +29,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.logging.Level;
 
 import cern.jet.random.engine.MersenneTwister;
 import xtream.core.Core;
-import xtream.interfaces.IQuery;
 import xtream.lsrm.ILSRMOP;
+import xtream.query.IQuery;
 
 /**
  * This class provides Xtream codes with access to global parameters and also
@@ -81,14 +82,23 @@ public class Globals {
 	// public static Instrumentation instrumentation; // useful to get object
 	// size
 
+	
+	/**
+	 * Default Logging level for Xtream 
+	 */
+	public static java.util.logging.Level DefaultLoggingLevel = Level.FINEST;
+	
+	/**
+	 *prefix for output files, will be set in Main
+	 */
 	public static String OUTPUT_FILES_PREFIX = "";
 
 	// Configuration
-	public static final int TOTAL_RUNTIME = 5 * 60 * 1000; // system run time
+	// [MIGRATED TO XConfig] public static final int TOTAL_RUNTIME = 1 * 60 * 1000; // system run time
 															// (msec)
-	public static final int NUM_OF_XWAYS = 1;
-	public static final int TIME_THRESHOLD = 30000;
-	public static final double PROBABILITY_THRESHOLD = 0.0;
+//	public static final int NUM_OF_XWAYS = 1;
+//	public static final int TIME_THRESHOLD = 30000;
+	// [MIGRATED TO XConfig] public static final double DEFAULT_PROBABILITY_THRESHOLD = 0.0;
 
 	// -------- PLR ------------
 	public static final boolean SYNTHETIC_INPUT_RATE = true; // false:
@@ -170,8 +180,8 @@ public class Globals {
 	// ---------------- RESOURCE MANAGEMENT/MONITORING --------------------
 	// --------------------------------------------------------------------
 	public static boolean ADAPTIVE_FLS = true; // if true: load shedding + adaptivity
-	public static final FLSMonitoringType FEDERAL_MONITORING = FLSMonitoringType.Continuous;
-	public static boolean FEDERAL_LOADSHEDDING_IS_ACTIVE = true;
+	public static final FLSMonitoringType FEDERAL_MONITORING = FLSMonitoringType.Disable;
+	public static boolean FEDERAL_LOADSHEDDING_IS_ACTIVE = false;
 	public static AdmissionControl ADMISSION_CTRL_TYPE = AdmissionControl.Disable;// AdmissionControl.Random;
 	public static boolean ADMISSION_CTRL_BLOCKINPUT = false; // inputs will be
 																// blocked while
@@ -181,7 +191,7 @@ public class Globals {
 																// MANUALLY)
 	public static LSOfferSelectionMethod LOADSHEDDING_OFFERSELECTION_METHOD = LSOfferSelectionMethod.FairThief;
 	public static final Monitoring_Modes MONITORING_MODE = Monitoring_Modes.Full;
-	public static final long MONITORING_TIME_PERIOD = 15000; // time period for
+	// [MIGRATED TO XConfig] public static final long MONITORING_TIME_PERIOD = 15000; // time period for
 																// monitoring
 
 	public static final long SYNTHETIC_INPUT_TIME_PERIOD = 15000; // synthetic
@@ -235,7 +245,6 @@ public class Globals {
 			.round(Math.pow(2, 3)); // number of ls offers for operator
 									// (granularity), should be power of 2
 
-	public static Vector<IQuery> testQueries = new Vector<IQuery>(); // TMP TEST
 
 	// --------------------------------------------------------------------
 	// ---------------- LSRM - JUST FOR MY THESIS -------------------------

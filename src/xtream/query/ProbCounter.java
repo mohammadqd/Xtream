@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: ProbeCounter
+ * Task: a simple counter op to count and show results on screen/log
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -27,8 +27,9 @@ package xtream.query;
 
 import java.io.IOException;
 
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.core.log.XLogger;
+import xtream.core.log.XLogger.SeverityLevel;
+import xtream.structures.ITuple;
 
 /**
  * Simple Probe counter to count and show results on screen
@@ -40,8 +41,8 @@ public class ProbCounter extends AOperator {
 	protected long counter;
 
 	/**
-	 * @param opName
-	 * @param parentQuery
+	 * @param opName name of probecounter
+	 * @param parentQuery parent query
 	 */
 	public ProbCounter(String opName, IQuery parentQuery) {
 		super(opName, parentQuery);
@@ -103,6 +104,7 @@ public class ProbCounter extends AOperator {
 	public void Close() {
 		super.Close();
 		System.out.println("\n Prob Counter: "+opName+" Value: "+counter);
+		XLogger.Log("ProbeCounter:"+opName, "Value: "+counter, SeverityLevel.INFO);
 	}
 
 }

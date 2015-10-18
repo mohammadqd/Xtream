@@ -31,12 +31,11 @@ import java.util.Vector;
 
 import xtream.Globals;
 import xtream.Globals.Monitoring_Modes;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.IOperator;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.IQueue;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
+import xtream.query.IOperator;
+import xtream.query.IQuery;
+import xtream.structures.IQueue;
+import xtream.structures.ITuple;
 
 /**
  * Tuple Priority Queue + Load Shedding Support

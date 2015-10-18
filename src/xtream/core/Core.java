@@ -2,7 +2,8 @@
  * Project: Xtream
  * Module: Core
  * Task: Core of the Xtream (mainly for executing threads)
- * Last Modify: May 2013
+ * Last Modify: Jul 13 2015 (Xlog and CommonConfig and more comments)
+ * Modify: 2013 (Threading and Statistics support)
  * Created: 2007
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
@@ -32,14 +33,20 @@ import java.util.concurrent.Executors;
 
 import xtream.Globals;
 import xtream.Globals.Monitoring_Modes;
+import xtream.core.commonconfig.CommonConfig;
 import xtream.core.loadshedding.FederalLoadShedder;
-import xtream.interfaces.ILoadShedder;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.core.loadshedding.ILoadShedder;
+import xtream.core.log.XLogger;
+import xtream.core.log.XLogger.SeverityLevel;
+import xtream.io.AggOutPort;
+import xtream.io.TxtFileOutPort;
 import xtream.plr.PTRTQoS;
-import xtream.structures.AggOutPort;
-import xtream.structures.TxtFileOutPort;
+import xtream.query.IQuery;
+import xtream.structures.ITuple;
 
+/**
+ * Core of running Xtream
+ */
 public class Core {
 
 	public enum ExecutionState {
@@ -60,7 +67,7 @@ public class Core {
 	protected long totalResults;// to maintain statistics
 	protected Object activeTplsSynch = new Object();
 	protected Object resultsCounterSynch = new Object();
-	public TxtFileOutPort traceCore = new TxtFileOutPort("TraceCore.txt");
+	// [DEPRECATED] public TxtFileOutPort traceCore = new TxtFileOutPort("TraceCore.txt");
 	protected ExecutorService threadExecutor;
 	protected Vector<Runnable> threadsToRun;
 	protected ExecutionState execState;
@@ -75,22 +82,27 @@ public class Core {
 	 * Constructor
 	 */
 	public Core() {
+		if (!CommonConfig.isInitialized())
+			CommonConfig.Initialize();
+		Globals.CheckConfigValidity();
 		threadsToRun = new Vector<Runnable>();
 		threadExecutor = Executors.newCachedThreadPool();
-		traceCore.WriteStr("CORE: CREATED");
+		XLogger.Log("CORE", "Creating Xtream Core...", SeverityLevel.INFO);
 		execState = ExecutionState.BEFORE_RUN;
 		systemStartTime = System.currentTimeMillis();
 		users = new Vector<User>();
 		periodicRTStat = new AggOutPort("Periodic_RESULTS_RT.txt",
-				Globals.MONITORING_TIME_PERIOD);
+				CommonConfig.GetConfigIntItem("MONITORING_TIME_PERIOD"));
 		periodicConfStat = new AggOutPort("Periodic_RESULTS_CONF.txt",
-				Globals.MONITORING_TIME_PERIOD);
+				CommonConfig.GetConfigIntItem("MONITORING_TIME_PERIOD"));
 		periodicTQoSStat = new AggOutPort("Periodic_RESULTS_TQoS.txt",
-				Globals.MONITORING_TIME_PERIOD);
-		Open();
+				CommonConfig.GetConfigIntItem("MONITORING_TIME_PERIOD"));
+		Open(); // open core (io ports)
+		Globals.core = this;
 	}// constructor
 
 	/**
+	 * to add a thread to be run by core
 	 * @param thrd
 	 *            thread to run
 	 * @return true:success false:failed
@@ -107,8 +119,8 @@ public class Core {
 		return true;
 	}
 
-	/*********************************
-	 * StartSimulation
+	/**
+	 * Run Core!
 	 * 
 	 * @param runtime
 	 *            runtime of execution (milliseconds)
@@ -119,8 +131,9 @@ public class Core {
 	 */
 	public void Run(long runtime, boolean immediately) {
 		try {
-			// systemStartTime = System.currentTimeMillis();
-			traceCore.WriteStr("CORE: Start Run @ " + (new Date()));
+			systemStartTime = System.currentTimeMillis();
+			XLogger.Log("CORE", "Start Running Core", SeverityLevel.INFO);
+
 			RunPreprocessings();
 			execState = ExecutionState.RUNNING;
 			for (Runnable r : threadsToRun) {
@@ -134,9 +147,10 @@ public class Core {
 			Finish(immediately);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			XLogger.Log("CORE", "Exception in Core.Run(): " + e.getMessage(), SeverityLevel.ERROR);
 			Finish(true); // immediately
 		}
-	}// startsimulation
+	}// run
 
 	/**
 	 * to finish core (non-preemptive)
@@ -145,12 +159,12 @@ public class Core {
 	 *            true:immediately false: with delay
 	 */
 	public synchronized void Finish(boolean immediately) {
-		traceCore.WriteStr("CORE: Total Results: " + totalResults
-				+ " Total Inputs: " + totalInputs);
-		traceCore.WriteStr("CORE: Finished "
+		XLogger.Log("CORE", "Total Results: "+ totalResults
+				+ " Total Inputs: " + totalInputs, SeverityLevel.INFO);
+		XLogger.Log("CORE", "Core Finished "
 				+ ((immediately) ? "Immediately" : "NotImmediately")
 				+ " Runtime(sec):" + (GetSysCurTime() / 1000) + " @ "
-				+ (new Date()));
+				+ (new Date()),SeverityLevel.INFO);
 		if (immediately) {
 			threadExecutor.shutdownNow();
 			execState = ExecutionState.END;
@@ -158,22 +172,21 @@ public class Core {
 			threadExecutor.shutdown();
 			execState = ExecutionState.FINISHING;
 		}
-		Close();
+		Close(); // close core (io ports)
 	}
 
 	public long GetSysStartTime() {
 		return systemStartTime;
 	}
 
-	/*********************************
-	 * RunTime get clock of simulator (from start of simulation how many
-	 * milliseconds)
+	/**
+	 * @return execution time (duration of execution)
 	 */
 	public long GetSysCurTime() {
 		return (System.currentTimeMillis() - systemStartTime);
 	}// runtime
 
-	/************************************
+	/**
 	 * 
 	 * @return execution state 0: Before Run 1: Running 2: Finished but waiting
 	 *         for threads to finish 3: All done and finished
@@ -183,6 +196,11 @@ public class Core {
 		return execState;
 	}
 
+	/**
+	 * To increase statistics about total number of tuples
+	 * @param cnt count of new tuples
+	 * @return total number of tuples
+	 */
 	public long NewTuple(int cnt) {
 		synchronized (activeTplsSynch) {
 			totalInputs += cnt;
@@ -190,6 +208,9 @@ public class Core {
 		}
 	}
 
+	/**
+	 * @return total number of tuples
+	 */
 	public long GetTuplesCount() {
 		return totalInputs;
 	}
@@ -228,7 +249,6 @@ public class Core {
 		loadShedder = new FederalLoadShedder(
 				(IQuery[]) (queries.toArray(new IQuery[0])),
 				(int) Globals.PER_OPERATOR_LS_OFFERS_COUNT);
-
 	}
 
 	/**
@@ -258,41 +278,50 @@ public class Core {
 			q.SetPT(newPT);
 	}
 
+	/**
+	 * To report exceptions (even from other classes)
+	 * @param e exception
+	 */
 	public synchronized void Exception(Throwable e) {
 		// Print
 		System.out.println("\n************************************");
 		System.out.println(" Exception: " + e.getClass());
 		System.out.println("************************************");
 		e.printStackTrace();
-		traceCore.WriteStr("CORE: Exception/Error: " + e.getClass() + " @ "
-				+ (new Date()));
-
+		XLogger.Log("CORE", "Exception/Error Report by class: "+e.getClass()+" Message: "+ e.getMessage(), SeverityLevel.ERROR);
 		// Process
 		Finish(true);
 
 	}
 
+	/**
+	 * to open Core (i.e. core io ports)
+	 */
 	public void Open() {
 		if (!isOpen) {
 			periodicConfStat.Open();
 			periodicRTStat.Open();
 			periodicTQoSStat.Open();
-			traceCore.Open();
 			isOpen = true;
 		}
 	}
 
+	/**
+	 * to close Core (i.e. core io ports)
+	 */
 	public void Close() {
 		if (isOpen) {
 			periodicConfStat.Close();
 			periodicRTStat.Close();
 			periodicTQoSStat.Close();
-			traceCore.Close();
 			loadShedder.Close();
 			isOpen = false;
 		}
 	}
 	
+	/**
+	 * @return all registered queries
+	 */
 	public Vector<IQuery> getQueries() {
 		return queries;
 	}

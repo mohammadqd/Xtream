@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: max window aggregate
+ * Task:  to retrieve a tuple with max value
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -25,9 +25,8 @@
  */
 package xtream.query;
 
-import xtream.interfaces.IAggTuple;
-import xtream.interfaces.IQuery;
 import xtream.structures.AAggregation;
+import xtream.structures.IAggTuple;
 
 /**
  * This is a Tumbling Time/Tuple Window Aggregate to retrieve a tuple with max

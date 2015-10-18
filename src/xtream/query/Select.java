@@ -1,7 +1,7 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
+ * Module: Traditional SELECT operator in DB SPJ Queries
+ * Task: stream filtering based on a prediction
  * Last Modify:
  * Created:
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
@@ -29,10 +29,9 @@ import java.io.IOException;
 
 import xtream.Globals;
 import xtream.core.Core.ExecutionState;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
 import xtream.structures.ABooleanPredicate;
+import xtream.structures.ITuple;
 
 /**
  * PUSH based Operator
@@ -42,8 +41,12 @@ import xtream.structures.ABooleanPredicate;
  */
 public class Select extends AOperator {
 
-	protected ABooleanPredicate prediction;
+	protected ABooleanPredicate prediction; // Filtering predicate
 
+	/**
+	 * @param prediction
+	 *            Filtering predicate
+	 */
 	public Select(ABooleanPredicate prediction, String opName,
 			IQuery parentQuery) {
 		super(opName, parentQuery);
@@ -58,10 +61,11 @@ public class Select extends AOperator {
 				throw new IOException(
 						"ERROR: Trying to put tuples in a closed SELECT operator");
 			else {
-				if ((!Globals.ADAPTIVE_FLS || tp.GetConf() >= GetPT()) && prediction.Predicate(tp)) { // if
-																			// tuple
-																			// pass
-																			// prediction
+				if ((!Globals.ADAPTIVE_FLS || tp.GetConf() >= GetPT())
+						&& prediction.Predicate(tp)) { // if
+					// tuple
+					// pass
+					// prediction
 					for (OutChannel o : outChannels) { // send it to all out
 														// ports
 														// (including
@@ -86,9 +90,9 @@ public class Select extends AOperator {
 			try {
 				PutTuple(inPort.nextTuple(), 1);
 			} catch (RuntimeException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			} catch (IOException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			}
 		}
 	}

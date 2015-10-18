@@ -27,8 +27,7 @@ package xtream.core.monitoring;
 
 import xtream.Globals;
 import xtream.core.User;
-import xtream.interfaces.IAggTuple;
-import xtream.interfaces.ITuple;
+import xtream.io.TxtFileOutPort;
 import xtream.query.ABinaryJoin;
 import xtream.query.AQuery;
 import xtream.query.BinarySlope;
@@ -40,9 +39,10 @@ import xtream.structures.AFuzzyPredicate;
 import xtream.structures.AProjection;
 import xtream.structures.AggTuple;
 import xtream.structures.FuzzyVectorSweepArea;
+import xtream.structures.IAggTuple;
+import xtream.structures.ITuple;
 import xtream.structures.JointTuples;
 import xtream.structures.TupleQueue;
-import xtream.structures.TxtFileOutPort;
 
 /**
  * @author ghalambor

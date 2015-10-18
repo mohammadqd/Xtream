@@ -26,7 +26,8 @@
 package xtream.core.loadshedding;
 
 import java.util.PriorityQueue;
-import xtream.interfaces.ITuple;
+
+import xtream.structures.ITuple;
 
 /**
  * Node to create load shedding capable multi queues of tuples

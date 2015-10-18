@@ -25,7 +25,6 @@
  */
 package xtream.query;
 
-import xtream.interfaces.IQuery;
 import xtream.structures.AAggregation;
 import xtream.structures.AggTuple;
 
@@ -53,8 +52,6 @@ public class TumblingTimeWindowCount extends ATumblingWindowAggregation {
 			@Override
 			public Object ComputeAggregation(Object... tuples) {
 				AggTuple aggtpl = new AggTuple(new Long(tuples.length), 1);
-				// DEBUG
-//				System.out.println("\n"+aggtpl);
 				return aggtpl;
 			}
 		};

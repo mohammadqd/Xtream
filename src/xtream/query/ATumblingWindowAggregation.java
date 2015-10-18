@@ -1,3 +1,29 @@
+/**
+ * Project: Xtream
+ * Module: tumbling time/tuple window aggregation
+ * Task: tumbling time/tuple window aggregation (ref. DSMS Literature)
+ * Last Modify: Jul 19, 2015
+ * Created:
+ * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
+ *
+ * LICENSE:
+ *    
+ * This file is part of the Xtream project.
+ *
+ * Xtream is a free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Xtream is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Xtream.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package xtream.query;
 
 import java.io.IOException;
@@ -5,10 +31,9 @@ import java.util.Vector;
 
 import xtream.Globals;
 import xtream.core.Core.ExecutionState;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
 import xtream.structures.AAggregation;
+import xtream.structures.ITuple;
 
 /**
  * <p>
@@ -36,7 +61,7 @@ public class ATumblingWindowAggregation extends AOperator {
 	 * PUSH based aggregation
 	 * 
 	 * @param timeWindowSize
-	 *            size of time window (millisec), 0 to make it inactive
+	 *            size of time window (msec), 0 to make it inactive
 	 * @param tupleWindowSize
 	 *            size of tuple-based window, 0 to make it inactive
 	 */
@@ -58,9 +83,9 @@ public class ATumblingWindowAggregation extends AOperator {
 			try {
 				PutTuple(inPort.nextTuple(), 1);
 			} catch (RuntimeException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			} catch (IOException e) {
-				e.printStackTrace();
+				Globals.core.Exception(e);
 			}
 		}
 	}

@@ -13,13 +13,12 @@ import java.util.ArrayList;
 
 import xtream.Globals;
 import xtream.core.Core;
-import xtream.interfaces.ITuple;
+import xtream.io.AggOutPort;
+import xtream.io.TxtFileOutPort;
 import xtream.plr.PPos;
-import xtream.structures.AggOutPort;
+import xtream.structures.ITuple;
 import xtream.structures.InPort;
-import xtream.structures.TxtFileOutPort;
 import xtream.structures.TupleQueue;
-
 import cern.jet.random.engine.MersenneTwister;
 
 public class OInputAdapter extends InPort{

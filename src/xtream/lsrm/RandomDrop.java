@@ -29,11 +29,11 @@ import java.io.IOException;
 
 import cern.jet.random.engine.MersenneTwister;
 import xtream.Globals;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
 import xtream.plr.PPos;
+import xtream.query.IQuery;
 import xtream.query.Select;
 import xtream.structures.ABooleanPredicate;
+import xtream.structures.ITuple;
 import xtream.structures.PeriodicStatistics;
 
 /**

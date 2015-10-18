@@ -1,9 +1,9 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
- * Last Modify:
- * Created:
+ * Module: User
+ * Task: To model users' information and queries
+ * Last Modify: Jul 13, 2015 (more comments)
+ * Created: 2013
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
  * LICENSE:
@@ -28,21 +28,25 @@ package xtream.core;
 import java.util.Iterator;
 import java.util.Vector;
 
-import xtream.interfaces.IQuery;
+import xtream.query.IQuery;
 
 /**
- * @author ghalambor
- * 
+ * To model users' information and queries
+ */
+/**
+ *
  */
 public class User {
 
-	protected Vector<IQuery> queries;
+	protected Vector<IQuery> queries; // contains user's queries
 	protected double totalQoSWeight;
 	protected String userID;
 	protected boolean systemUser; // system user is different from normal users
 
 	/**
-	 * 
+	 * Constructor
+	 * @param id user id
+	 * @param systemUser true: power user false: limited user
 	 */
 	public User(String id,boolean systemUser) {
 		this.systemUser = systemUser;
@@ -51,15 +55,27 @@ public class User {
 		queries = new Vector<IQuery>();
 	}
 	
+	/**
+	 * Constructor for limited users
+	 * @param id user id
+	 */
 	public User(String id) {
 		this(id,false);
 	}
 
+	/**
+	 * Register a query for the current user
+	 * @param q query to be registered
+	 */
 	public synchronized void addQuery(IQuery q) {
 		queries.add(q);
 		totalQoSWeight += q.GetQoSWeight();
 	}
 
+	/**
+	 * get a query by its index
+	 * @return demanded query
+	 */
 	public synchronized IQuery getQuery(int index) {
 		return queries.get(index);
 	}

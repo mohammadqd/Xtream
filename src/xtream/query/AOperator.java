@@ -1,9 +1,9 @@
 /**
  * Project: Xtream
- * Module:
- * Task:
- * Last Modify:
- * Created:
+ * Module: Abstract Operator
+ * Task: base for other operators
+ * Last Modify: 2013
+ * Created: 2003
  * Developer: Mohammad Ghalambor Dezfuli (mghalambor@iust.ac.ir & @ gmail.com)
  *
  * LICENSE:
@@ -31,24 +31,25 @@ import java.util.Vector;
 
 import xtream.Globals;
 import xtream.Globals.Monitoring_Modes;
+import xtream.core.loadshedding.ILSStore;
 import xtream.core.loadshedding.LSOffer;
 import xtream.core.loadshedding.LSResponseTimeContainer;
-import xtream.interfaces.IInPort;
-import xtream.interfaces.ILSStore;
-import xtream.interfaces.IOperator;
-import xtream.interfaces.IOutPort;
-import xtream.interfaces.IQuery;
-import xtream.interfaces.ITuple;
+import xtream.io.IInPort;
+import xtream.io.IOutPort;
+import xtream.structures.ITuple;
 
 /**
- * @author ghalambor
+ * base for other operators
  * 
  */
 public abstract class AOperator implements IOperator, ILSStore {
 
 	protected boolean isRootOP;
 	protected double currentPT; // probability-threshold for results
-	public final String opName; // unique name for operator
+	/**
+	 * unique name for operator
+	 */
+	public final String opName;
 	protected IQuery parentQuery; // query which has this operator
 	protected LSResponseTimeContainer rt; // to maintain response-time for PT
 											// buckets (must be updated by
@@ -246,18 +247,19 @@ public abstract class AOperator implements IOperator, ILSStore {
 
 	/**
 	 * <p>
-	 * This method generates local (per operator) LSOffers so getLSOffers() can
-	 * combine them with upstream offers.
+	 * This method generates local (<i>per operator</i>) <b>LSOffers</b> so
+	 * getLSOffers() can combine them with upstream offers.
 	 * </p>
 	 * <p>
 	 * Should be implemented in implementing classes (operators) which are
 	 * stateful operators.
+	 * </p>
 	 * 
 	 * @param newPTs
 	 * @return local (per operator) LSOffers
 	 */
 	protected LSOffer[] getLocalLSOffers(double[] newPTs) {
-//		System.out.println("\n LS Local Offer invocation of AOperator for "+opName);
+		// System.out.println("\n LS Local Offer invocation of AOperator for "+opName);
 		LSOffer[] offers = new LSOffer[newPTs.length];
 		for (int i = 0; i < offers.length; i++) {
 			offers[i] = new LSOffer(parentQuery, newPTs[i],
@@ -266,7 +268,9 @@ public abstract class AOperator implements IOperator, ILSStore {
 		return offers;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see xtream.interfaces.IInPort#SetPT(double)
 	 */
 	@Override
@@ -278,15 +282,15 @@ public abstract class AOperator implements IOperator, ILSStore {
 			do {
 				oldPT = finalPT;
 				for (IInPort ip : inPorts) {
-						finalPT = Math.max((ip).SetPT(finalPT),
-								finalPT);
+					finalPT = Math.max((ip).SetPT(finalPT), finalPT);
 				}
 			} while (finalPT != oldPT);
 			currentPT = finalPT;
-//			if (Globals.MONITORING_MODE == Monitoring_Modes.Full) // DEBUG
-//				System.out.format("\nMON_MSG: Set PT of %s to %f", opName,currentPT);
+			// if (Globals.MONITORING_MODE == Monitoring_Modes.Full) // DEBUG
+			// System.out.format("\nMON_MSG: Set PT of %s to %f",
+			// opName,currentPT);
 			rt.SetPT(currentPT);
 		}
-		return currentPT;		
+		return currentPT;
 	}
 }
